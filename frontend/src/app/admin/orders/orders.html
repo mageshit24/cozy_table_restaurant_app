@@ -1,0 +1,62 @@
+<!-- admin/orders/orders.html -->
+<div class="admin-orders">
+  <h2>All Orders</h2>
+
+  <p *ngIf="message" class="flash" [ngClass]="messageType === 'error' ? 'flash-error' : 'flash-success'">
+    {{ message }}
+  </p>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div class="table-wrap" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Update Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>#{{ order.id }}</td>
+          <td>{{ order.UserId }}</td>
+          <td>₹{{ order.totalAmount }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+              {{ order.status }}
+            </span>
+          </td>
+          <td>
+            <!--
+              BUG FIX: The dropdown is disabled for terminal states ('delivered',
+              'cancelled'). The backend enforces the same state machine, so even
+              if someone bypasses the UI they will get a 409 response.
+            -->
+            <select
+              [disabled]="isTerminal(order)"
+              [title]="isTerminal(order) ? 'Order is ' + order.status + ' and cannot be changed' : 'Change status'"
+              (change)="updateStatus(order, $any($event.target).value)"
+              [value]="order.status">
+
+              <!-- Current status always shown first -->
+              <option [value]="order.status" selected>{{ order.status }}</option>
+
+              <!-- Only show valid next transitions -->
+              <ng-container *ngFor="let s of allowedNextStatuses(order)">
+                <option [value]="s">{{ s }}</option>
+              </ng-container>
+
+            </select>
+
+            <span *ngIf="isTerminal(order)" class="locked-label" title="Terminal state">🔒</span>
+          </td>
+          <td>{{ order.createdAt | date:'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,137 @@
+
+<!-- customer/payment/payment.component.html
+     Fixes: comprehensive payment UI, real-time field validation, 3 methods -->
+<div class="payment-page page-wrapper">
+
+  <!-- ── Payment Form ─────────────────────────────────────────────────────── -->
+  <div class="payment-card card" *ngIf="!paymentSuccess">
+
+    <div class="payment-header">
+      <h2>💳 Complete Payment</h2>
+      <div class="order-info" *ngIf="orderId">
+        <span>Order #{{ orderId }}</span>
+        <span class="amount" *ngIf="amount">₹{{ amount }}</span>
+      </div>
+    </div>
+
+    <!-- Method Tabs -->
+    <div class="method-tabs">
+      <button [class.active]="paymentMethod === 'card'" (click)="paymentMethod='card'; errors={}">
+        💳 Credit / Debit Card
+      </button>
+      <button [class.active]="paymentMethod === 'upi'"  (click)="paymentMethod='upi';  errors={}">
+        📱 UPI
+      </button>
+      <button [class.active]="paymentMethod === 'cod'"  (click)="paymentMethod='cod';  errors={}">
+        💵 Cash on Delivery
+      </button>
+    </div>
+
+    <!-- ── Card Form ── -->
+    <div *ngIf="paymentMethod === 'card'" class="payment-form">
+
+      <div class="form-group">
+        <label>Card Number *</label>
+        <input
+          type="text"
+          [(ngModel)]="cardNumber"
+          (input)="formatCard()"
+          (blur)="validateField('cardNumber')"
+          [class.error]="errors['cardNumber']"
+          placeholder="1234 5678 9012 3456"
+          maxlength="19" />
+        <span class="field-error" *ngIf="errors['cardNumber']">{{ errors['cardNumber'] }}</span>
+      </div>
+
+      <div class="form-group">
+        <label>Cardholder Name *</label>
+        <input
+          type="text"
+          [(ngModel)]="cardHolder"
+          (blur)="validateField('cardHolder')"
+          [class.error]="errors['cardHolder']"
+          placeholder="Name as on card" />
+        <span class="field-error" *ngIf="errors['cardHolder']">{{ errors['cardHolder'] }}</span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Expiry Date *</label>
+          <input
+            type="text"
+            [(ngModel)]="expiryDate"
+            (input)="formatExpiry()"
+            (blur)="validateField('expiryDate')"
+            [class.error]="errors['expiryDate']"
+            placeholder="MM/YY"
+            maxlength="5" />
+          <span class="field-error" *ngIf="errors['expiryDate']">{{ errors['expiryDate'] }}</span>
+        </div>
+        <div class="form-group">
+          <label>CVV *</label>
+          <input
+            type="password"
+            [(ngModel)]="cvv"
+            (blur)="validateField('cvv')"
+            [class.error]="errors['cvv']"
+            placeholder="•••"
+            maxlength="4" />
+          <span class="field-error" *ngIf="errors['cvv']">{{ errors['cvv'] }}</span>
+        </div>
+      </div>
+
+      <!-- Card visual hint -->
+      <div class="card-hint">
+        <span>🔒 Your card details are encrypted and secure.</span>
+      </div>
+
+    </div>
+
+    <!-- ── UPI Form ── -->
+    <div *ngIf="paymentMethod === 'upi'" class="payment-form">
+      <div class="form-group">
+        <label>UPI ID *</label>
+        <input
+          type="text"
+          [(ngModel)]="upiId"
+          (blur)="validateField('upiId')"
+          [class.error]="errors['upiId']"
+          placeholder="yourname@upi" />
+        <span class="field-error" *ngIf="errors['upiId']">{{ errors['upiId'] }}</span>
+      </div>
+      <div class="upi-hint">
+        <p>Enter your UPI ID (e.g. <code>john&#64;okaxis</code>, <code>9876543210&#64;paytm</code>)</p>
+      </div>
+    </div>
+
+    <!-- ── COD Info ── -->
+    <div *ngIf="paymentMethod === 'cod'" class="cod-info">
+      <div class="cod-icon">💵</div>
+      <p><strong>Cash on Delivery</strong></p>
+      <p>Pay with cash when your order is delivered. No online transaction required.</p>
+      <p class="cod-note">Please keep exact change ready.</p>
+    </div>
+
+    <!-- Error message -->
+    <div class="alert alert-error" *ngIf="paymentError">{{ paymentError }}</div>
+
+    <!-- Submit button -->
+    <button class="btn btn-primary btn-full btn-lg pay-btn" (click)="processPayment()" [disabled]="loading">
+      <span *ngIf="!loading">{{ paymentMethod === 'cod' ? '✅ Confirm Order' : '🔒 Pay Now' }}</span>
+      <span *ngIf="loading">⏳ Processing...</span>
+    </button>
+
+  </div>
+
+  <!-- ── Success Screen ───────────────────────────────────────────────────── -->
+  <div class="success-card card" *ngIf="paymentSuccess">
+    <div class="success-icon">✅</div>
+    <h2>Payment Successful!</h2>
+    <p>Your order has been confirmed. Thank you for dining with The Cozy Table!</p>
+    <div class="success-actions">
+      <a routerLink="/customer/orders" class="btn btn-primary">📦 View My Orders</a>
+      <a routerLink="/customer/menu"   class="btn btn-outline">🍽️ Order More</a>
+    </div>
+  </div>
+
+</div>

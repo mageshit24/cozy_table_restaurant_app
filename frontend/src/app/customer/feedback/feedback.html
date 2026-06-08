@@ -1,0 +1,21 @@
+<div class="feedback-container">
+  <h2>Give Your Feedback</h2>
+
+  <form (ngSubmit)="submitFeedback()">
+
+    <label>Rating:</label>
+    <select [(ngModel)]="rating" name="rating">
+      <option *ngFor="let r of [1,2,3,4,5]" [value]="r">
+        {{ r }} Star
+      </option>
+    </select>
+
+    <label>Comment:</label>
+    <textarea [(ngModel)]="comment" name="comment" rows="4" placeholder="Write your feedback..." required>
+    </textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <p class="message">{{ message }}</p>
+</div>

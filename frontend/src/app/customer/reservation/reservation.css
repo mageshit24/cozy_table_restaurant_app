@@ -1,0 +1,117 @@
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h2 { margin-bottom: 15px; color: #333; }
+
+/* Alert banners */
+.alert {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.alert-success { background: #d4edda; color: #155724; }
+.alert-error   { background: #f8d7da; color: #721c24; }
+.close-btn {
+  background: none; border: none; font-size: 18px;
+  cursor: pointer; color: inherit; line-height: 1;
+}
+
+/* Form */
+form {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,.05);
+  margin-bottom: 30px;
+}
+
+.form-group { margin-bottom: 15px; }
+
+label { display: block; font-weight: 600; margin-bottom: 5px; }
+
+input[type="date"],
+input[type="time"],
+input[type="number"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+input:focus { outline: none; border-color: #007bff; }
+
+.field-error { color: #dc3545; font-size: 12px; margin-top: 4px; }
+
+/* Availability */
+.availability-result { margin-top: 10px; }
+.avail-ok { color: #28a745; font-weight: 600; }
+.avail-no { color: #dc3545; font-weight: 600; }
+
+/* Buttons */
+button {
+  padding: 9px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: opacity .2s;
+  margin: 3px 4px 3px 0;
+}
+button:hover:not(:disabled)  { opacity: .85; }
+button:disabled               { opacity: .45; cursor: default; }
+button.btn-secondary          { background: #6c757d; }
+button.btn-edit               { background: #17a2b8; }
+button.btn-cancel             { background: #dc3545; }
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th {
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+tr:hover { background: #f1f1f1; }
+
+td input { width: 100%; padding: 5px 7px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+
+/* Status badges */
+.status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.status-pending  { background: #fff3cd; color: #856404; }
+.status-approved { background: #d4edda; color: #155724; }
+.status-rejected { background: #f8d7da; color: #721c24; }
+
+.loading { color: #555; }
+.empty   { color: #666; margin-top: 10px; }

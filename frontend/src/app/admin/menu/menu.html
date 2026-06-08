@@ -1,0 +1,112 @@
+<!-- admin/menu/menu.component.html – image upload UI, table search+filter, delete confirm modal -->
+<div class="admin-menu page-wrapper">
+  <div class="page-header">
+    <h2>🍽️ Manage Menu</h2>
+    <button class="btn btn-primary" (click)="resetForm()">+ New Item</button>
+  </div>
+
+  <div *ngIf="message" class="alert" [ngClass]="messageType === 'success' ? 'alert-success' : 'alert-error'">{{ message }}</div>
+
+  <!-- Form -->
+  <div class="card form-card">
+    <h3>{{ editMode ? '✏️ Edit Item' : '➕ Add New Item' }}</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Item Name *</label>
+        <input type="text" placeholder="e.g. Butter Chicken" [(ngModel)]="newItem.name" [class.error]="errors['name']" />
+        <span class="field-error" *ngIf="errors['name']">{{ errors['name'] }}</span>
+      </div>
+      <div class="form-group">
+        <label>Price (₹) *</label>
+        <input type="number" min="1" placeholder="e.g. 350" [(ngModel)]="newItem.price" [class.error]="errors['price']" />
+        <span class="field-error" *ngIf="errors['price']">{{ errors['price'] }}</span>
+      </div>
+      <div class="form-group full">
+        <label>Description</label>
+        <input type="text" placeholder="Brief description..." [(ngModel)]="newItem.description" />
+      </div>
+      <div class="form-group">
+        <label>Category *</label>
+        <select [(ngModel)]="newItem.category" [class.error]="errors['category']">
+          <option value="">Select a category</option>
+          <option value="starters">Starters</option>
+          <option value="mains">Mains</option>
+          <option value="desserts">Desserts</option>
+          <option value="beverages">Beverages</option>
+          <option value="alcoholic-beverages">Alcoholic Beverages</option>
+        </select>
+        <span class="field-error" *ngIf="errors['category']">{{ errors['category'] }}</span>
+      </div>
+      <div class="form-group">
+        <label>Image Upload</label>
+        <div class="upload-wrap">
+          <label class="upload-btn" for="imgUpload">📸 {{ selectedFile ? selectedFile.name : 'Choose Image' }}</label>
+          <input id="imgUpload" type="file" accept="image/*" (change)="onImageSelected($event)" class="file-hidden" />
+          <button class="btn btn-ghost btn-sm" *ngIf="imagePreview" (click)="removeImage()">Remove</button>
+        </div>
+        <span class="field-error" *ngIf="imageError">{{ imageError }}</span>
+        <div class="image-preview" *ngIf="imagePreview"><img [src]="imagePreview" alt="Preview" /></div>
+        <small class="upload-hint">JPG, PNG, WEBP, GIF · Max 5 MB</small>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" (click)="saveMenu()" [disabled]="loading">{{ loading ? '⏳ Saving...' : (editMode ? 'Update Item' : 'Add Item') }}</button>
+      <button class="btn btn-ghost" *ngIf="editMode" (click)="resetForm()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Table controls -->
+  <div class="table-controls card">
+    <div class="search-wrap">
+      <span>🔍</span>
+      <input type="text" placeholder="Search menu items..." [(ngModel)]="tableSearch" (ngModelChange)="applyTableFilter()" class="search-input" />
+    </div>
+    <select [(ngModel)]="tableCategory" (ngModelChange)="applyTableFilter()" class="cat-select">
+      <option value="">All Categories</option>
+      <option value="starters">Starters</option>
+      <option value="mains">Mains</option>
+      <option value="desserts">Desserts</option>
+      <option value="beverages">Beverages</option>
+      <option value="alcoholic-beverages">Alcoholic</option>
+    </select>
+    <span class="result-count">{{ filteredItems.length }} item{{ filteredItems.length !== 1 ? 's' : '' }}</span>
+  </div>
+
+  <!-- Table -->
+  <div class="card table-card">
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Description</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let item of filteredItems">
+            <td><img class="thumb" [src]="getImageUrl(item)" [alt]="item.name" (error)="$any($event.target).src='https://placehold.co/60x60/f5f5f7/6b7280?text=No+Img'" /></td>
+            <td><strong>{{ item.name }}</strong></td>
+            <td><span class="badge" style="background:var(--info-bg);color:var(--info)">{{ item.category || '—' }}</span></td>
+            <td>₹{{ item.price }}</td>
+            <td class="desc-cell">{{ item.description || '—' }}</td>
+            <td class="action-cell">
+              <button class="btn btn-outline btn-sm" (click)="editItem(item)">Edit</button>
+              <button class="btn btn-danger btn-sm" (click)="confirmDelete(item.id)">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredItems.length === 0">
+            <td colspan="6" style="text-align:center;color:var(--text-muted);padding:2rem">No items found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Delete confirm modal -->
+  <div class="modal-overlay" *ngIf="deletingId" (click)="cancelDelete()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-icon">🗑️</div>
+      <h3>Delete Menu Item?</h3>
+      <p>This action cannot be undone. The item will be permanently removed.</p>
+      <div class="modal-actions">
+        <button class="btn btn-danger" (click)="deleteItem()">Yes, Delete</button>
+        <button class="btn btn-ghost" (click)="cancelDelete()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

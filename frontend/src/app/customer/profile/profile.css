@@ -1,0 +1,49 @@
+/* customer/profile/profile.component.css */
+
+.profile-page { max-width: 700px; margin: 0 auto; padding-top: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+
+/* Header card */
+.profile-header-card { padding: 1.75rem; }
+.avatar-wrap { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1rem; }
+.avatar {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: 800;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(232,96,44,.3);
+}
+.avatar-info h2   { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+
+/* Section cards */
+.section-card { padding: 1.5rem; }
+
+/* Info grid */
+.info-grid  { display: flex; flex-direction: column; gap: 0; }
+.info-row   {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+.info-row:last-child { border-bottom: none; }
+.info-label { width: 130px; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; flex-shrink: 0; }
+.info-value { font-size: 0.95rem; font-weight: 500; color: var(--text); }
+
+/* Edit form */
+.edit-form        { padding-top: 0.5rem; }
+.disabled-input   { background: var(--bg) !important; color: var(--text-muted) !important; cursor: not-allowed; }
+.edit-actions     { display: flex; gap: 0.75rem; margin-top: 0.5rem; flex-wrap: wrap; }
+
+/* Password section */
+.password-form  { padding-top: 0.25rem; display: flex; flex-direction: column; }
+.password-hint  { color: var(--text-muted); font-size: 0.88rem; }
+
+@media (max-width: 480px) {
+  .info-row       { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .info-label     { width: auto; }
+  .avatar-wrap    { flex-direction: column; text-align: center; }
+}

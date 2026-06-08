@@ -1,0 +1,67 @@
+<div class="cart-container">
+
+  <h2>Your Cart</h2>
+
+  <!-- Feedback messages -->
+  <div *ngIf="message" class="alert" [ngClass]="msgType === 'success' ? 'alert-success' : 'alert-error'">
+    {{ message }}
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading your cart…</div>
+
+  <div *ngIf="!loading && cartItems.length === 0" class="empty">
+    <p>🛒 Your cart is empty.</p>
+    <a href="/customer/menu" class="btn-browse">Browse Menu</a>
+  </div>
+
+  <!-- Cart items -->
+  <div *ngIf="!loading && cartItems.length > 0">
+
+    <div class="cart-item" *ngFor="let item of cartItems">
+      <img [src]="getImageUrl(item)" [alt]="item.name" class="item-img"
+           (error)="$any($event.target).src='https://placehold.co/60x60/f5f5f7/999?text=🍽'">
+
+      <div class="item-info">
+        <h4>{{ item.name }}</h4>
+        <span class="category-tag" *ngIf="item.category">{{ item.category }}</span>
+        <p class="unit-price">₹{{ item.price }} each</p>
+      </div>
+
+      <div class="quantity-controls">
+        <button (click)="decrease(item.id)">−</button>
+        <span class="qty">{{ item.quantity }}</span>
+        <button (click)="increase(item.id)">+</button>
+      </div>
+
+      <div class="item-total">₹{{ item.price * item.quantity }}</div>
+
+      <button class="remove-btn" (click)="remove(item.id)" title="Remove">✕</button>
+    </div>
+
+    <!-- Summary -->
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>₹{{ getTotal() }}</span>
+      </div>
+      <div class="summary-row">
+        <span>GST (5%)</span>
+        <span>₹{{ getTax() }}</span>
+      </div>
+      <div class="summary-row total-row">
+        <span>Grand Total</span>
+        <span>₹{{ getGrand() }}</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="cart-actions">
+      <button class="btn-clear" (click)="clearCart()">Clear Cart</button>
+      <button class="btn-order" (click)="placeOrder()" [disabled]="placing">
+        {{ placing ? 'Placing Order…' : '✓ Place Order' }}
+      </button>
+    </div>
+
+  </div>
+
+</div>

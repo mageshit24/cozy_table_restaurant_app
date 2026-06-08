@@ -1,0 +1,94 @@
+<!-- customer/orders/orders.html -->
+<div class="orders-page page-wrapper">
+
+  <div class="page-header">
+    <h2>My Orders</h2>
+    <button class="btn btn-primary" (click)="placeOrder()" [disabled]="placing">
+      {{ placing ? '⏳ Placing...' : '🛒 Place Order from Cart' }}
+    </button>
+  </div>
+
+  <!-- Flash message -->
+  <div *ngIf="message" class="alert" [ngClass]="messageType === 'success' ? 'alert-success' : 'alert-error'">
+    {{ message }}
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-block"><div class="spinner"></div><p>Loading your orders...</p></div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && orders.length === 0" class="empty-state">
+    <div class="icon">📦</div>
+    <h3>No orders yet</h3>
+    <p>Add items to your cart and place your first order!</p>
+  </div>
+
+  <!-- Orders list -->
+  <div class="order-list" *ngIf="!loading && orders.length > 0">
+    <div class="order-card" *ngFor="let order of orders">
+
+      <!-- Header row (click to expand) -->
+      <div class="order-header" (click)="toggleOrder(order.id)">
+        <div class="order-meta">
+          <strong>Order #{{ order.id }}</strong>
+          <span class="order-date">{{ order.createdAt | date:'mediumDate' }}</span>
+        </div>
+        <div class="order-right">
+          <span class="badge" [ngClass]="getStatusClass(order.status)">{{ order.status }}</span>
+          <span class="chevron">{{ expandedOrderId === order.id ? '▲' : '▼' }}</span>
+        </div>
+      </div>
+
+      <!-- Expanded: itemized bill -->
+      <div class="order-details" *ngIf="expandedOrderId === order.id">
+
+        <!-- Line items table -->
+        <table class="bill-table" *ngIf="order.OrderItems && order.OrderItems.length > 0">
+          <thead>
+            <tr><th>Item</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of order.OrderItems">
+              <td>{{ item.Menu?.name || 'Menu item' }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>₹{{ item.price }}</td>
+              <td>₹{{ item.price * item.quantity }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p *ngIf="!order.OrderItems || order.OrderItems.length === 0" class="no-items">
+          Item details not available.
+        </p>
+
+        <!-- Bill summary -->
+        <div class="bill-summary">
+          <div class="bill-row"><span>Subtotal</span><span>₹{{ order.totalAmount }}</span></div>
+          <div class="bill-row tax"><span>Tax (5%)</span><span>₹{{ getTax(order.totalAmount) }}</span></div>
+          <div class="bill-row grand"><span>Grand Total</span><span>₹{{ getGrandTotal(order.totalAmount) }}</span></div>
+        </div>
+
+        <!-- Payment CTA
+             BUG FIX: canPay() ensures this button only shows for 'pending' orders.
+             A 'preparing', 'delivered', or 'cancelled' order no longer shows this
+             button — payment has already been accepted or the order is closed. -->
+        <div class="order-actions">
+          <button class="btn btn-primary"
+            *ngIf="canPay(order)"
+            (click)="proceedToPayment(order)">
+            💳 Proceed to Payment
+          </button>
+          <span class="paid-badge" *ngIf="order.status === 'preparing' || order.status === 'delivered'">
+            ✅ Payment received
+          </span>
+          <span class="cancelled-badge" *ngIf="order.status === 'cancelled'">
+            ❌ Order cancelled
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

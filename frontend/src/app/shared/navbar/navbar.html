@@ -1,0 +1,54 @@
+<!-- navbar.component.html – responsive navigation with mobile hamburger menu -->
+<nav class="navbar">
+
+  <!-- Brand -->
+  <div class="nav-brand">
+    <span class="brand-icon">🍽️</span>
+    <a routerLink="/" class="brand-name">The Cozy Table</a>
+  </div>
+
+  <!-- Hamburger (mobile only) -->
+  <button class="hamburger" (click)="toggleMenu()" [class.open]="menuOpen" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- Nav Links -->
+  <ul class="nav-links" [class.open]="menuOpen" *ngIf="isLoggedIn">
+
+    <!-- Customer -->
+    <ng-container *ngIf="role === 'customer'">
+      <li><a routerLink="/customer"             routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a></li>
+      <li><a routerLink="/customer/menu"        routerLinkActive="active">Menu</a></li>
+      <li><a routerLink="/customer/reservation" routerLinkActive="active">Reservations</a></li>
+      <li><a routerLink="/customer/orders"      routerLinkActive="active">My Orders</a></li>
+      <li><a routerLink="/customer/feedback"    routerLinkActive="active">Feedback</a></li>
+      <li>
+        <a routerLink="/customer/cart" routerLinkActive="active" class="cart-link">
+          🛒 Cart
+          <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+        </a>
+      </li>
+      <li><a routerLink="/customer/profile" routerLinkActive="active">Profile</a></li>
+    </ng-container>
+
+    <!-- Admin -->
+    <ng-container *ngIf="role === 'admin'">
+      <li><a routerLink="/admin"              routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Dashboard</a></li>
+      <li><a routerLink="/admin/menu"         routerLinkActive="active">Menu</a></li>
+      <li><a routerLink="/admin/reservations" routerLinkActive="active">Reservations</a></li>
+      <li><a routerLink="/admin/orders"       routerLinkActive="active">Orders</a></li>
+      <li><a routerLink="/admin/feedback"     routerLinkActive="active">Feedback</a></li>
+    </ng-container>
+
+  </ul>
+
+  <!-- Auth Buttons -->
+  <div class="nav-auth">
+    <ng-container *ngIf="!isLoggedIn">
+      <a routerLink="/login"    class="nav-btn nav-btn--outline">Login</a>
+      <a routerLink="/register" class="nav-btn nav-btn--primary">Register</a>
+    </ng-container>
+    <button *ngIf="isLoggedIn" class="nav-btn nav-btn--logout" (click)="logout()">Logout</button>
+  </div>
+
+</nav>

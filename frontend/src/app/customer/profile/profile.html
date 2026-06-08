@@ -1,0 +1,149 @@
+
+<!-- customer/profile/profile.component.html
+     Fixes: complete profile display, inline edit form, password change section -->
+<div class="profile-page page-wrapper">
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-block"><div class="spinner"></div><p>Loading profile...</p></div>
+
+  <div *ngIf="!loading">
+
+    <!-- ── Profile Header Card ─────────────────────────────────────────── -->
+    <div class="card profile-header-card">
+      <div class="avatar-wrap">
+        <div class="avatar">{{ getInitials() }}</div>
+        <div class="avatar-info">
+          <h2>{{ profile.name }}</h2>
+          <span class="badge" [ngClass]="profile.role === 'admin' ? 'badge-admin' : 'badge-customer'">
+            {{ profile.role }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Flash message -->
+      <div *ngIf="message" class="alert" [ngClass]="messageType === 'success' ? 'alert-success' : 'alert-error'">
+        {{ message }}
+      </div>
+    </div>
+
+    <!-- ── Profile Details / Edit ──────────────────────────────────────── -->
+    <div class="card section-card">
+      <div class="card-header">
+        <h3>👤 Personal Information</h3>
+        <button class="btn btn-outline btn-sm" (click)="startEdit()" *ngIf="!editMode">Edit Profile</button>
+      </div>
+
+      <!-- View mode -->
+      <div class="info-grid" *ngIf="!editMode">
+        <div class="info-row">
+          <span class="info-label">Full Name</span>
+          <span class="info-value">{{ profile.name || '—' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value">{{ profile.email }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Phone</span>
+          <span class="info-value">{{ profile.phone || '—' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Role</span>
+          <span class="info-value" style="text-transform:capitalize">{{ profile.role }}</span>
+        </div>
+      </div>
+
+      <!-- Edit mode -->
+      <div class="edit-form" *ngIf="editMode">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input
+            type="text"
+            [(ngModel)]="editData.name"
+            [class.error]="editErrors['name']"
+            placeholder="Your full name" />
+          <span class="field-error" *ngIf="editErrors['name']">{{ editErrors['name'] }}</span>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [value]="profile.email" disabled class="disabled-input"
+                 title="Email cannot be changed" />
+        </div>
+
+        <div class="form-group">
+          <label>Phone *</label>
+          <input
+            type="tel"
+            [(ngModel)]="editData.phone"
+            [class.error]="editErrors['phone']"
+            placeholder="10-digit mobile number"
+            maxlength="10" />
+          <span class="field-error" *ngIf="editErrors['phone']">{{ editErrors['phone'] }}</span>
+        </div>
+
+        <div class="edit-actions">
+          <button class="btn btn-primary" (click)="saveProfile()" [disabled]="savingProfile">
+            {{ savingProfile ? 'Saving...' : 'Save Changes' }}
+          </button>
+          <button class="btn btn-ghost" (click)="cancelEdit()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Change Password ─────────────────────────────────────────────── -->
+    <div class="card section-card">
+      <div class="card-header">
+        <h3>🔒 Change Password</h3>
+        <button class="btn btn-outline btn-sm" (click)="togglePasswordForm()">
+          {{ showPasswordForm ? 'Cancel' : 'Change Password' }}
+        </button>
+      </div>
+
+      <div *ngIf="passwordMessage" class="alert" [ngClass]="passwordType === 'success' ? 'alert-success' : 'alert-error'">
+        {{ passwordMessage }}
+      </div>
+
+      <div class="password-form" *ngIf="showPasswordForm">
+        <div class="form-group">
+          <label>Current Password *</label>
+          <input
+            type="password"
+            [(ngModel)]="oldPassword"
+            [class.error]="passwordErrors['old']"
+            placeholder="Enter current password" />
+          <span class="field-error" *ngIf="passwordErrors['old']">{{ passwordErrors['old'] }}</span>
+        </div>
+
+        <div class="form-group">
+          <label>New Password *</label>
+          <input
+            type="password"
+            [(ngModel)]="newPassword"
+            [class.error]="passwordErrors['new']"
+            placeholder="Min 6 chars, 1 uppercase, 1 number" />
+          <span class="field-error" *ngIf="passwordErrors['new']">{{ passwordErrors['new'] }}</span>
+        </div>
+
+        <div class="form-group">
+          <label>Confirm New Password *</label>
+          <input
+            type="password"
+            [(ngModel)]="confirmPassword"
+            [class.error]="passwordErrors['confirm']"
+            placeholder="Re-enter new password" />
+          <span class="field-error" *ngIf="passwordErrors['confirm']">{{ passwordErrors['confirm'] }}</span>
+        </div>
+
+        <button class="btn btn-primary" (click)="changePassword()" [disabled]="savingPassword">
+          {{ savingPassword ? 'Updating...' : '🔒 Update Password' }}
+        </button>
+      </div>
+
+      <p class="password-hint" *ngIf="!showPasswordForm">
+        Keep your account secure by using a strong, unique password.
+      </p>
+    </div>
+
+  </div>
+</div>

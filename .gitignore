@@ -1,0 +1,221 @@
+# ============================================================
+
+# RestroHub / Cozy Table - Monorepo .gitignore
+
+# ============================================================
+
+# ------------------------------------------------------------
+
+# Backend (Node.js / Express / Sequelize)
+
+# ------------------------------------------------------------
+
+backend/node_modules/
+backend/.env
+backend/.env.*
+backend/dist/
+backend/build/
+backend/logs/
+backend/uploads/
+backend/temp/
+backend/tmp/
+
+backend/*.log
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/pnpm-debug.log*
+
+# Sequelize
+
+backend/migrations/*.js.map
+backend/seeders/*.js.map
+
+# ------------------------------------------------------------
+
+# Frontend (Angular)
+
+# ------------------------------------------------------------
+
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+frontend/.sass-cache/
+frontend/.cache/
+
+frontend/.env
+frontend/.env.*
+frontend/*.log
+
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# Angular build artifacts
+
+frontend/.angular/cache/
+
+# ------------------------------------------------------------
+
+# Environment Variables
+
+# ------------------------------------------------------------
+
+.env
+.env.*
+!.env.example
+
+# ------------------------------------------------------------
+
+# Database Files
+
+# ------------------------------------------------------------
+
+*.sqlite
+*.sqlite3
+*.db
+
+# ------------------------------------------------------------
+
+# Testing
+
+# ------------------------------------------------------------
+
+coverage/
+.nyc_output/
+
+# ------------------------------------------------------------
+
+# Logs
+
+# ------------------------------------------------------------
+
+logs/
+*.log
+
+# ------------------------------------------------------------
+
+# OS Files
+
+# ------------------------------------------------------------
+
+# Windows
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100/
+.Trashes/
+
+# Linux
+
+*~
+
+# ------------------------------------------------------------
+
+# IDEs & Editors
+
+# ------------------------------------------------------------
+
+# VS Code
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# JetBrains
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio
+
+.vs/
+
+# Vim
+
+*.swp
+*.swo
+
+# ------------------------------------------------------------
+
+# Package Managers
+
+# ------------------------------------------------------------
+
+.pnpm-store/
+.npm/
+.yarn/
+
+# ------------------------------------------------------------
+
+# Temporary Files
+
+# ------------------------------------------------------------
+
+tmp/
+temp/
+.cache/
+
+# ------------------------------------------------------------
+
+# Archives
+
+# ------------------------------------------------------------
+
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# ------------------------------------------------------------
+
+# Generated Images / Uploads
+
+# ------------------------------------------------------------
+
+uploads/
+public/uploads/
+storage/
+
+# ------------------------------------------------------------
+
+# Build Outputs
+
+# ------------------------------------------------------------
+
+dist/
+build/
+out/
+
+# ------------------------------------------------------------
+
+# TypeScript
+
+# ------------------------------------------------------------
+
+*.tsbuildinfo
+
+# ------------------------------------------------------------
+
+# Miscellaneous
+
+# ------------------------------------------------------------
+
+*.pid
+*.seed
+*.pid.lock

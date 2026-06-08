@@ -1,0 +1,138 @@
+<div class="container">
+
+  <!-- Page-level messages -->
+  <div *ngIf="successMsg" class="alert alert-success">
+    {{ successMsg }}
+    <button class="close-btn" (click)="clearMessages()">×</button>
+  </div>
+  <div *ngIf="errorMsg" class="alert alert-error">
+    {{ errorMsg }}
+    <button class="close-btn" (click)="clearMessages()">×</button>
+  </div>
+
+  <!-- ══ BOOKING FORM ═══════════════════════════════════════════════════ -->
+  <h2>Book a Table</h2>
+
+  <form #reservationForm="ngForm">
+
+    <div class="form-group">
+      <label for="date">Date</label>
+      <input id="date" type="date"
+             name="date"
+             [(ngModel)]="newReservation.date"
+             #date="ngModel"
+             required>
+      <div *ngIf="date.invalid && date.touched" class="field-error">Date is required.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="time">Time</label>
+      <input id="time" type="time"
+             name="time"
+             [(ngModel)]="newReservation.time"
+             #time="ngModel"
+             required>
+      <div *ngIf="time.invalid && time.touched" class="field-error">Time is required.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="guests">Number of Guests</label>
+      <input id="guests" type="number"
+             name="guests"
+             [(ngModel)]="newReservation.guests"
+             #guests="ngModel"
+             min="1" max="20"
+             required>
+      <div *ngIf="guests.invalid && guests.touched" class="field-error">At least 1 guest required.</div>
+    </div>
+
+    <!-- Availability -->
+    <button type="button"
+            class="btn-secondary"
+            (click)="checkAvailability()"
+            [disabled]="reservationForm.invalid || checkingAvailability">
+      {{ checkingAvailability ? 'Checking…' : 'Check Availability' }}
+    </button>
+
+    <div *ngIf="availabilityChecked" class="availability-result">
+      <span *ngIf="isAvailable"  class="avail-ok">✔ Slot is available</span>
+      <span *ngIf="!isAvailable" class="avail-no">✘ Slot not available — try another time</span>
+    </div>
+
+    <br>
+
+    <button type="button"
+            (click)="createReservation()"
+            [disabled]="reservationForm.invalid || !isAvailable">
+      Book Table
+    </button>
+
+  </form>
+
+  <hr>
+
+  <!-- ══ MY RESERVATIONS ════════════════════════════════════════════════ -->
+  <h2>My Reservations</h2>
+
+  <div *ngIf="loading" class="loading">Loading your reservations…</div>
+
+  <p *ngIf="!loading && reservations.length === 0" class="empty">
+    You have no reservations yet.
+  </p>
+
+  <table *ngIf="!loading && reservations.length > 0">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Guests</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let res of reservations">
+
+        <!-- VIEW MODE -->
+        <ng-container *ngIf="editingId !== res.id">
+          <td>{{ res.date }}</td>
+          <td>{{ res.time }}</td>
+          <td>{{ res.guests }}</td>
+          <td><span [ngClass]="getStatusClass(res.status)">{{ res.status }}</span></td>
+          <td>
+            <button class="btn-edit"
+                    (click)="startEdit(res)"
+                    [disabled]="res.status === 'cancelled'">
+              Edit
+            </button>
+            <button class="btn-cancel"
+                    (click)="cancelReservation(res.id)"
+                    [disabled]="res.status === 'cancelled'">
+              Cancel
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- EDIT MODE -->
+        <ng-container *ngIf="editingId === res.id">
+          <td>
+            <input type="date" [(ngModel)]="res.date" [name]="'editDate' + res.id">
+          </td>
+          <td>
+            <input type="time" [(ngModel)]="res.time" [name]="'editTime' + res.id">
+          </td>
+          <td>
+            <input type="number" [(ngModel)]="res.guests" [name]="'editGuests' + res.id" min="1" max="20" style="width:60px">
+          </td>
+          <td><span [ngClass]="getStatusClass(res.status)">{{ res.status }}</span></td>
+          <td>
+            <button (click)="saveEdit(res)">Save</button>
+            <button class="btn-secondary" (click)="cancelEdit(res)">Discard</button>
+          </td>
+        </ng-container>
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>

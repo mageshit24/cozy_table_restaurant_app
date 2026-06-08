@@ -1,0 +1,52 @@
+/* admin/feedback/feedback.component.css */
+
+.admin-feedback { padding-top: 1.5rem; }
+
+/* Controls */
+.controls { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+.control-group { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--text-muted); }
+.control-group select { padding: 5px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.85rem; background: var(--surface); cursor: pointer; }
+
+/* Stats bar */
+.stats-bar { display: flex; align-items: center; gap: 1.5rem; padding: 1rem 1.5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; align-items: center; }
+.stat-value { font-size: 1.6rem; font-weight: 800; color: var(--primary); line-height: 1; }
+.stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 2px; }
+.stat-divider { width: 1px; height: 36px; background: var(--border); }
+.avg-stars { display: flex; gap: 2px; margin-left: 0.25rem; }
+
+/* Grid */
+.feedback-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+
+/* Card */
+.feedback-card { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
+
+.fb-header  { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
+.user-row   { display: flex; align-items: center; gap: 0.75rem; }
+.avatar {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.95rem; flex-shrink: 0;
+}
+.user-meta { display: flex; flex-direction: column; }
+.user-meta strong { font-size: 0.9rem; font-weight: 700; }
+.user-meta small { font-size: 0.78rem; color: var(--text-muted); }
+
+/* Stars */
+.stars  { display: flex; gap: 1px; flex-shrink: 0; }
+.star   { font-size: 18px; color: #d1d5db; }
+.star.filled { color: #f59e0b; }
+
+.comment { font-size: 0.9rem; color: var(--text); line-height: 1.6; flex: 1; }
+
+.fb-footer  { display: flex; align-items: center; justify-content: space-between; }
+.date       { font-size: 0.78rem; color: var(--text-muted); }
+.rating-chip { font-size: 0.75rem; font-weight: 700; background: var(--warning-bg); color: var(--warning); padding: 2px 8px; border-radius: 10px; }
+
+@media (max-width: 600px) {
+  .feedback-grid { grid-template-columns: 1fr; }
+  .fb-header { flex-direction: column; }
+}

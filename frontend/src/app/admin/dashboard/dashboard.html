@@ -1,0 +1,67 @@
+<!-- admin/dashboard/dashboard.html -->
+<div class="admin-container">
+
+  <div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <div class="header-meta">
+      <span *ngIf="lastUpdated" class="last-updated">
+        Last updated: {{ lastUpdated | date:'HH:mm:ss' }}
+      </span>
+      <!-- BUG FIX: button is only disabled while loading; never permanently stuck -->
+      <button class="btn-refresh" (click)="refresh()" [disabled]="loading">
+        {{ loading ? 'Refreshing…' : '↻ Refresh' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Error banner — shown when the stats API fails (e.g. wrong DB_NAME, network) -->
+  <div *ngIf="loadError && !loading" class="error-banner">
+    ⚠️ Could not load stats. Check that the backend is running and
+    <code>DB_NAME</code> in <code>.env</code> is set to <code>cozy_table_db</code>.
+    <button (click)="refresh()">Retry</button>
+  </div>
+
+  <div class="stats">
+
+    <div class="card">
+      <div class="card-icon orders-icon">📦</div>
+      <h3>Total Orders</h3>
+      <p class="count" [class.loading-pulse]="loading">{{ totalOrders }}</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon res-icon">🪑</div>
+      <h3>Total Reservations</h3>
+      <p class="count" [class.loading-pulse]="loading">{{ totalReservations }}</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon fb-icon">💬</div>
+      <h3>Total Feedback</h3>
+      <p class="count" [class.loading-pulse]="loading">{{ totalFeedback }}</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon users-icon">👥</div>
+      <h3>Total Customers</h3>
+      <p class="count" [class.loading-pulse]="loading">{{ totalUsers }}</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon rev-icon">💰</div>
+      <h3>Revenue (Delivered)</h3>
+      <p class="count" [class.loading-pulse]="loading">₹{{ totalRevenue }}</p>
+    </div>
+
+  </div>
+
+  <div class="nav-links">
+    <a routerLink="/admin/menu">🍽 Manage Menu</a>
+    <a routerLink="/admin/orders">📦 Manage Orders</a>
+    <a routerLink="/admin/reservations">🪑 Manage Reservations</a>
+    <a routerLink="/admin/feedback">💬 View Feedback</a>
+  </div>
+
+  <router-outlet></router-outlet>
+
+</div>

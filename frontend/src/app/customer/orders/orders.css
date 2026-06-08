@@ -1,0 +1,49 @@
+/* customer/orders/orders.component.css */
+
+.orders-page { padding-top: 1.5rem; }
+
+.order-list  { display: flex; flex-direction: column; gap: 1rem; }
+
+.order-card  { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+  gap: 1rem;
+}
+.order-header:hover { background: var(--primary-light); }
+
+.order-meta  { display: flex; flex-direction: column; gap: 2px; }
+.order-meta strong { font-size: 0.95rem; }
+.order-date  { font-size: 0.8rem; color: var(--text-muted); }
+
+.order-right { display: flex; align-items: center; gap: 10px; }
+.chevron     { color: var(--text-muted); font-size: 12px; }
+
+/* Expanded details */
+.order-details { padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--border); }
+
+.bill-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.88rem; }
+.bill-table th { text-align: left; padding: 0.5rem 0.6rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); border-bottom: 2px solid var(--border); }
+.bill-table td { padding: 0.6rem 0.6rem; border-bottom: 1px solid var(--border); }
+.bill-table tr:last-child td { border-bottom: none; }
+
+.no-items   { color: var(--text-muted); font-size: 0.88rem; padding: 0.75rem 0; }
+
+.bill-summary { border-top: 1px solid var(--border); margin-top: 0.5rem; }
+.bill-row    { display: flex; justify-content: space-between; padding: 0.45rem 0; font-size: 0.9rem; }
+.bill-row.tax { color: var(--text-muted); font-size: 0.85rem; }
+.bill-row.grand { font-weight: 800; font-size: 1rem; border-top: 2px solid var(--border); padding-top: 0.6rem; color: var(--primary); }
+
+.order-actions { margin-top: 1rem; }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .order-header { padding: 0.85rem 1rem; }
+  .bill-table   { font-size: 0.8rem; }
+}
