@@ -191,6 +191,68 @@ The app runs on `http://localhost:4200` and proxies API calls to the backend (se
 
 ---
 
+## 📸 Screenshots
+
+### 🔐 Authentication
+
+#### Login Page
+![Login Page](screenshots/login.png)
+
+#### Registration Page
+![Registration Page](screenshots/register.png)
+
+---
+
+### 👨‍🍳 Customer Experience
+
+#### Customer Dashboard
+![Customer Dashboard](screenshots/customer-dashboard.png)
+
+#### Browse Menu
+![Menu](screenshots/menu.png)
+
+#### Shopping Cart
+![Cart](screenshots/cart.png)
+
+#### Place Order
+![Place Order](screenshots/place-order.png)
+
+#### Order History
+![Order History](screenshots/orders.png)
+
+#### Table Reservation
+![Reservation](screenshots/reservation.png)
+
+#### Payment Page
+![Payment](screenshots/payment.png)
+
+#### Feedback Submission
+![Feedback](screenshots/feedback.png)
+
+---
+
+### 🛠️ Admin Experience
+
+#### Admin Dashboard
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+#### Menu Management
+![Menu Management](screenshots/admin-menu.png)
+
+#### Add Menu Item
+![Add Menu Item](screenshots/add-menu-item.png)
+
+#### Order Management
+![Order Management](screenshots/admin-orders.png)
+
+#### Reservation Management
+![Reservation Management](screenshots/admin-reservations.png)
+
+#### Customer Feedback
+![Feedback Management](screenshots/admin-feedback.png)
+
+---
+
 ## 🔒 Security Notes
 
 - Database and JWT credentials are loaded from `backend/.env`, which is excluded from version control — never commit real credentials.
