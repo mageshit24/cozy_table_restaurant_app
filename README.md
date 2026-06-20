@@ -2,7 +2,7 @@
 
 A full-stack restaurant management system with separate **customer** and **admin** experiences — online menu browsing, cart & ordering, table reservations, payments, and feedback, backed by a secure JWT-authenticated REST API.
 
-> 🎓 Internship Trainng Project
+> 🎓 Internship Training Project
 
 ---
 
@@ -20,16 +20,24 @@ The app is built as a **monorepo**: an Angular frontend and a Node.js/Express ba
 ## 🏗️ Architecture
 
 ```
-┌──────────────────────────┐         REST API (JWT)        ┌──────────────────────────┐
-│   Angular Frontend        │ ─────────────────────────────▶│   Express Backend         │
-│   (Customer + Admin UI)   │ ◀───────────────────────────── │   (Node.js + Sequelize)   │
-└──────────────────────────┘                                └─────────────┬────────────┘
-                                                                            │
-                                                                            ▼
-                                                              ┌──────────────────────────┐
-                                                              │   MySQL Database          │
-                                                              │   (restro_hub)            │
-                                                              └──────────────────────────┘
+          ┌──────────────────────────────┐
+          │       Angular Frontend       │
+          │    (Customer + Admin UI)     │
+          └──────────────────────────────┘
+                          │
+                REST API (JWT, HTTPS)
+                          ▼
+          ┌──────────────────────────────┐
+          │       Express Backend        │
+          │    (Node.js + Sequelize)     │
+          └──────────────────────────────┘
+                          │
+                    Sequelize ORM
+                          ▼
+          ┌──────────────────────────────┐
+          │        MySQL Database        │
+          │         (restro_hub)         │
+          └──────────────────────────────┘
 ```
 
 - **Frontend (Angular 21):** Standalone components, route guards for auth/admin, an HTTP interceptor that attaches the JWT to every request.
@@ -205,7 +213,7 @@ The app runs on `http://localhost:4200` and proxies API calls to the backend (se
 ## 👤 Author
 
 **Magesh Hariram K**
-Final Year Major Project — Full-Stack Restaurant Management System
+Internship Training Project — Full-Stack Restaurant Management System
 
 📇 [LinkedIn](https://www.linkedin.com/in/magesh-hariram-k-6011132a4)
 
