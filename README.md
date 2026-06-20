@@ -235,22 +235,22 @@ The app runs on `http://localhost:4200` and proxies API calls to the backend (se
 ### 🛠️ Admin Experience
 
 #### Admin Dashboard
-![Admin Dashboard](screenshots/admin-dashboard.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/e63a3f49-3ae3-4766-94d2-d8a9e0c58c6a" />
 
 #### Menu Management
-![Menu Management](screenshots/admin-menu.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/80b95818-4861-4c64-9aca-5ce59453590e" />
 
 #### Add Menu Item
-![Add Menu Item](screenshots/add-menu-item.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/8630d9ce-cff2-4f36-9bc1-f5641a5dda7e" />
 
 #### Order Management
-![Order Management](screenshots/admin-orders.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/b5c23723-c429-432e-97b1-3b8d597c9c1e" />
 
 #### Reservation Management
-![Reservation Management](screenshots/admin-reservations.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/4c7d9942-d3d5-45fd-9d8b-2c76b4615f4f" />
 
 #### Customer Feedback
-![Feedback Management](screenshots/admin-feedback.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/25471c18-802c-48a7-b478-5cf8d34ae0ca" />
 
 ---
 
