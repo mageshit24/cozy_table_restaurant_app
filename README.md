@@ -196,38 +196,35 @@ The app runs on `http://localhost:4200` and proxies API calls to the backend (se
 ### 🔐 Authentication
 
 #### Login Page
-![Login Page](screenshots/login.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/45aff7a6-1f39-4e9b-8f59-329026287150" />
 
 #### Registration Page
-![Registration Page](screenshots/register.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/3346b0fc-2180-4cc0-9a87-3c77a94e73ce" />
 
 ---
 
 ### 👨‍🍳 Customer Experience
 
 #### Customer Dashboard
-![Customer Dashboard](screenshots/customer-dashboard.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/068663a8-35e7-4a9e-b8df-a4105b47dcb8" />
 
 #### Browse Menu
-![Menu](screenshots/menu.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/22c90bfd-6f8d-4468-9eb1-26a7144b235a" />
 
 #### Shopping Cart
-![Cart](screenshots/cart.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/fb65aa01-0a14-4cd8-8983-93f6109f67f1" />
 
-#### Place Order
-![Place Order](screenshots/place-order.png)
-
-#### Order History
-![Order History](screenshots/orders.png)
+#### My Orders
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/e2ac2aa4-9b6c-489b-8448-5183c9b2893c" />
 
 #### Table Reservation
-![Reservation](screenshots/reservation.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/d5939a35-2449-4217-8c7b-02cefdc131ed" />
 
 #### Payment Page
-![Payment](screenshots/payment.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/ac60a6cb-4865-4818-b027-b720a3019830" />
 
 #### Feedback Submission
-![Feedback](screenshots/feedback.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/a19a9eb4-eae4-4c2c-aad7-291dc31bbde6" />
 
 ---
 
