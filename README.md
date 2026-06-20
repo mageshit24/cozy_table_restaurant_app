@@ -226,6 +226,10 @@ The app runs on `http://localhost:4200` and proxies API calls to the backend (se
 #### Feedback Submission
 <img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/a19a9eb4-eae4-4c2c-aad7-291dc31bbde6" />
 
+#### Profile
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/8273a9bf-6eb1-478a-8bf4-118ec1962a20" />
+
+
 ---
 
 ### 🛠️ Admin Experience
