@@ -22,17 +22,21 @@ export class CustomerOrders implements OnInit {
   constructor(
     private orderService: OrderService,
     private cartService: CartService,
-    private router: Router, private cdr: ChangeDetectorRef) {}
+    private router: Router, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void { this.loadOrders(); }
 
   loadOrders(): void {
     this.loading = true;
     this.orderService.getMyOrders().subscribe({
-      next : (data) => { this.orders = data; this.loading = false;
-        this.cdr.detectChanges(); },
-      error: ()     => { this.loading = false;
-        this.cdr.detectChanges(); }
+      next: (data) => {
+        this.orders = data; this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -66,7 +70,7 @@ export class CustomerOrders implements OnInit {
     });
   }
 
-  getTax(total: number): number        { return Math.round(total * 0.05); }
+  getTax(total: number): number { return Math.round(total * 0.05); }
   getGrandTotal(total: number): number { return total + this.getTax(total); }
 
   /**
@@ -81,16 +85,16 @@ export class CustomerOrders implements OnInit {
 
   getStatusClass(status: string): string {
     const map: Record<string, string> = {
-      pending   : 'badge-pending',
-      preparing : 'badge-preparing',
-      delivered : 'badge-delivered',
-      cancelled : 'badge-cancelled'
+      pending: 'badge-pending',
+      preparing: 'badge-preparing',
+      delivered: 'badge-delivered',
+      cancelled: 'badge-cancelled'
     };
     return map[status?.toLowerCase()] || '';
   }
 
   private showMessage(msg: string, type: 'success' | 'error'): void {
-    this.message     = msg;
+    this.message = msg;
     this.messageType = type;
     setTimeout(() => this.message = '', 4000);
   }

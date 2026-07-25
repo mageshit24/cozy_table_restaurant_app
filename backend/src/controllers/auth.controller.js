@@ -11,10 +11,10 @@
  */
 
 const bcrypt = require('bcrypt');
-const jwt    = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const { User, TokenBlacklist } = require('../models');
 const { blacklistToken } = require('../middleware/auth.middleware');
-const { logActivity, logError }  = require('../utils/logger');
+const { logActivity, logError, safeError } = require('../utils/logger');
 
 /* ─────────────────── REGISTER ─────────────────────────────────────────── */
 
@@ -32,7 +32,7 @@ exports.register = async (req, res) => {
     }
 
     const hashed = await bcrypt.hash(password, 10);
-    const user   = await User.create({ name, email, phone, password: hashed });
+    const user = await User.create({ name, email, phone, password: hashed });
 
     logActivity(req, 'REGISTER_SUCCESS', { userId: user.id, email });
     return res.json({ message: 'Registered successfully' });
@@ -77,7 +77,7 @@ exports.login = async (req, res) => {
     });
   } catch (err) {
     logError(req, 'LOGIN_ERROR', err, { email });
-    return res.status(500).json({ message: 'Login failed', error: err.message });
+    return res.status(500).json({ message: 'Login failed', error: safeError(err) });
   }
 };
 
@@ -127,7 +127,7 @@ exports.changePassword = async (req, res) => {
       return res.status(400).json({ message: 'New password must be at least 6 characters' });
     }
 
-    const user  = await User.findByPk(req.user.id);
+    const user = await User.findByPk(req.user.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     const valid = await bcrypt.compare(oldPassword, user.password);

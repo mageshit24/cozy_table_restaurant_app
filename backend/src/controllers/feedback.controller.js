@@ -11,6 +11,7 @@
  */
 
 const { Feedback, User } = require("../models"); // Only import what is used
+const { sendError } = require("../utils/logger");
 
 /* ── POST /api/feedback ─────────────────────────────────────────────────────
  *  Authenticated customers submit a star rating + comment.
@@ -32,15 +33,14 @@ exports.addFeedback = async (req, res) => {
       return res.status(400).json({ message: "Comment must be at least 5 characters" });
 
     const feedback = await Feedback.create({
-      rating : parsedRating,
+      rating: parsedRating,
       comment: comment.trim(),
-      UserId : req.user.id
+      UserId: req.user.id
     });
 
     return res.status(201).json({ message: "Feedback submitted successfully", feedback });
   } catch (err) {
-    console.error("[feedback] addFeedback error:", err.message);
-    return res.status(500).json({ message: "Error submitting feedback", error: err.message });
+    return sendError(res, req, 500, "Error submitting feedback", "FEEDBACK_CREATE_ERROR", err);
   }
 };
 
@@ -64,12 +64,11 @@ exports.getFeedback = async (req, res) => {
     const allFeedback = await Feedback.findAll({
       where,
       include: [{ model: User, attributes: ["name", "email"] }],
-      order  : [["createdAt", sort === "asc" ? "ASC" : "DESC"]]
+      order: [["createdAt", sort === "asc" ? "ASC" : "DESC"]]
     });
 
     return res.json(allFeedback);
   } catch (err) {
-    console.error("[feedback] getFeedback error:", err.message);
-    return res.status(500).json({ message: "Error fetching feedback", error: err.message });
+    return sendError(res, req, 500, "Error fetching feedback", "FEEDBACK_FETCH_ERROR", err);
   }
 };

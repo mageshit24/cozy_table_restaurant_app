@@ -1,14 +1,78 @@
-.admin-orders { padding: 24px; max-width: 1100px; margin: 0 auto; }
-h2 { margin-bottom: 16px; }
-.flash { background: #d4edda; color: #155724; padding: 10px 16px; border-radius: 8px; margin-bottom: 16px; }
-.table-wrap { background: white; border-radius: 16px; box-shadow: 0 2px 14px rgba(0,0,0,0.07); overflow: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th { padding: 14px; background: #f8f8f8; text-align: left; font-weight: 600; color: #555; }
-td { padding: 14px; border-bottom: 1px solid #f0f0f0; }
-.status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-.status-pending { background: #fff3cd; color: #856404; }
-.status-preparing { background: #cce5ff; color: #004085; }
-.status-delivered { background: #d4edda; color: #155724; }
-.status-cancelled { background: #f8d7da; color: #721c24; }
-select { padding: 6px 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 13px; }
-.loading { text-align: center; padding: 40px; color: #888; }
+/* admin/orders/orders.component.css */
+
+.admin-orders {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.flash {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.flash-success {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.flash-error {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.table-wrap {
+    padding: 0;
+    overflow: hidden;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-pending {
+    background: var(--warning-bg);
+    color: var(--warning);
+}
+
+.status-preparing {
+    background: var(--info-bg);
+    color: var(--info);
+}
+
+.status-delivered {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.status-cancelled {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.data-table select {
+    padding: 5px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-xs);
+    font-size: 0.82rem;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.data-table select:disabled {
+    background: var(--bg);
+    color: var(--text-light);
+    cursor: not-allowed;
+}
+
+.locked-label {
+    margin-left: 6px;
+    font-size: 0.8rem;
+}

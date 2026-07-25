@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth';
   styleUrl: './register.css',
 })
 export class Register {
-name: string = '';
+  name: string = '';
   email: string = '';
   phone: string = '';
   password: string = '';

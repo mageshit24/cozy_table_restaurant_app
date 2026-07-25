@@ -25,7 +25,7 @@ export class AdminReservations implements OnInit {
   originalStatus: Record<number, string> = {};
 
   constructor(
-    private reservationService: ReservationService, private cdr: ChangeDetectorRef) {}
+    private reservationService: ReservationService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.loadReservations();
@@ -49,19 +49,19 @@ export class AdminReservations implements OnInit {
 
         next: (data: Reservation[]) => {
 
-  console.log('Reservations:', data);
+          console.log('Reservations:', data);
 
-  this.reservations = data || [];
+          this.reservations = data || [];
 
-  this.originalStatus = {};
+          this.originalStatus = {};
 
-  this.reservations.forEach(r => {
-    this.originalStatus[r.id] = r.status;
-  });
+          this.reservations.forEach(r => {
+            this.originalStatus[r.id] = r.status;
+          });
 
-  this.loading = false;
-        this.cdr.detectChanges();
-},
+          this.loading = false;
+          this.cdr.detectChanges();
+        },
 
         error: (err: any) => {
 
@@ -72,7 +72,7 @@ export class AdminReservations implements OnInit {
             'Failed to load reservations';
 
           this.loading = false;
-        this.cdr.detectChanges();
+          this.cdr.detectChanges();
         }
       });
   }

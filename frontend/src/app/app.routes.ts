@@ -37,5 +37,10 @@ export const routes: Routes = [
   { path: 'admin/menu', component: AdminMenu, canActivate: [adminGuard] },
   { path: 'admin/orders', component: AdminOrders, canActivate: [adminGuard] },
   { path: 'admin/reservations', component: AdminReservations, canActivate: [adminGuard] },
-  { path: 'admin/feedback', component: AdminFeedback, canActivate: [adminGuard] }
+  { path: 'admin/feedback', component: AdminFeedback, canActivate: [adminGuard] },
+
+  // Catch-all — previously missing, so any unmatched/mistyped path (including
+  // the admin-guard's old broken redirect target) failed silently with no
+  // navigation at all instead of landing somewhere sensible.
+  { path: '**', redirectTo: 'login' }
 ];

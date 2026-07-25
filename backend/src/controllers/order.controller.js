@@ -29,7 +29,7 @@ const TERMINAL_STATES = ['delivered', 'cancelled'];
  * Admin cannot regress a paid order back to pending.
  */
 const ALLOWED_TRANSITIONS = {
-  pending:   ['preparing', 'cancelled'],
+  pending: ['preparing', 'cancelled'],
   preparing: ['delivered', 'cancelled'],
   delivered: [],   // terminal
   cancelled: []    // terminal
@@ -40,7 +40,7 @@ const ALLOWED_TRANSITIONS = {
 exports.placeOrder = async (req, res, next) => {
   try {
     const cartItems = await Cart.findAll({
-      where:   { userId: req.user.id },
+      where: { userId: req.user.id },
       include: [{ model: Menu }]
     });
 
@@ -54,18 +54,18 @@ exports.placeOrder = async (req, res, next) => {
     );
 
     const order = await Order.create({
-      userId:      req.user.id,
+      userId: req.user.id,
       totalAmount: total,
-      status:      'pending'
+      status: 'pending'
     });
 
     await Promise.all(
       cartItems.map(item =>
         OrderItem.create({
-          orderId:  order.id,
-          menuId:   item.menuId,
+          orderId: order.id,
+          menuId: item.menuId,
           quantity: item.quantity,
-          price:    item.Menu.price
+          price: item.Menu.price
         })
       )
     );
@@ -75,14 +75,14 @@ exports.placeOrder = async (req, res, next) => {
     const fullOrder = await Order.findByPk(order.id, {
       include: [{
         model: OrderItem,
-        include: [{ model: Menu, attributes: ['id', 'name', 'price', 'image'] }]
+        include: [{ model: Menu, attributes: ['id', 'name', 'price', 'imageUrl'] }]
       }]
     });
 
     logActivity(req, 'ORDER_PLACED', {
-      orderId:     order.id,
+      orderId: order.id,
       totalAmount: total,
-      itemCount:   cartItems.length
+      itemCount: cartItems.length
     });
 
     return res.status(201).json({ message: 'Order placed successfully', order: fullOrder });
@@ -102,7 +102,7 @@ exports.getOrders = async (req, res, next) => {
       where,
       include: [{
         model: OrderItem,
-        include: [{ model: Menu, attributes: ['id', 'name', 'price', 'image'] }]
+        include: [{ model: Menu, attributes: ['id', 'name', 'price', 'imageUrl'] }]
       }],
       order: [['createdAt', 'DESC']]
     });
@@ -138,9 +138,9 @@ exports.updateStatus = async (req, res, next) => {
      */
     if (TERMINAL_STATES.includes(order.status)) {
       logActivity(req, 'ORDER_STATUS_BLOCKED_TERMINAL', {
-        orderId:    order.id,
+        orderId: order.id,
         fromStatus: order.status,
-        toStatus:   status
+        toStatus: status
       });
       return res.status(409).json({
         message: `Order is already '${order.status}' and cannot be changed.`
@@ -156,9 +156,9 @@ exports.updateStatus = async (req, res, next) => {
       });
       if (paidPayment) {
         logActivity(req, 'ORDER_STATUS_BLOCKED_PAID', {
-          orderId:   order.id,
+          orderId: order.id,
           paymentId: paidPayment.id,
-          toStatus:  status
+          toStatus: status
         });
         return res.status(409).json({
           message: 'Cannot revert order to pending after successful payment.'
@@ -172,9 +172,9 @@ exports.updateStatus = async (req, res, next) => {
     const allowed = ALLOWED_TRANSITIONS[order.status] || [];
     if (!allowed.includes(status)) {
       logActivity(req, 'ORDER_STATUS_INVALID_TRANSITION', {
-        orderId:    order.id,
+        orderId: order.id,
         fromStatus: order.status,
-        toStatus:   status,
+        toStatus: status,
         allowed
       });
       return res.status(409).json({
@@ -186,9 +186,9 @@ exports.updateStatus = async (req, res, next) => {
     await order.update({ status });
 
     logActivity(req, 'ORDER_STATUS_UPDATED', {
-      orderId:        order.id,
+      orderId: order.id,
       previousStatus,
-      newStatus:      status
+      newStatus: status
     });
 
     return res.json({ message: 'Order status updated', order });

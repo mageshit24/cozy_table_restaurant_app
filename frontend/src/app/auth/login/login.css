@@ -1,51 +1,79 @@
-.login-container {
-  width: 350px;
-  margin: 80px auto;
-  padding: 25px;
-  border-radius: 8px;
-  background: #f5f5f5;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* auth/login/login.component.css
+   Shared auth-shell pattern (see register.css for the twin copy) —
+   a full-bleed pine backdrop with a warm centered card, so the first
+   screen a visitor sees carries the same identity as the rest of the app. */
+
+.auth-shell {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(255, 255, 255, .05), transparent 40%),
+    var(--primary-dark);
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-top: 10px;
-  font-weight: 500;
-}
-
-input {
+.auth-card {
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  max-width: 380px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 2.25rem 2rem;
 }
 
-button {
-  width: 100%;
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #2d6cdf;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.auth-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
 }
 
-button:hover {
-  background-color: #1f4fbf;
+.auth-brand .brand-icon {
+  font-size: 20px;
 }
 
-.error {
-  background: #ffdddd;
-  color: #d8000c;
-  padding: 8px;
-  border-radius: 4px;
-  margin-bottom: 10px;
+.auth-brand .brand-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--accent-dark);
+}
+
+.auth-card h2 {
   text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.auth-subtitle {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.auth-switch a {
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.75rem 1.25rem;
+  }
 }

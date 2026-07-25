@@ -40,7 +40,19 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    const user = this.getUserFromToken();
+    if (!user) return false;
+    // A token surviving in localStorage past its own `exp` claim (e.g. after
+    // the 1h server-side expiry) used to still pass this check, since it only
+    // tested for *presence*. That let the route guards wave a stale session
+    // through client-side, even though every subsequent API call would then
+    // fail with 401 anyway — confusing "why can I see the page but nothing
+    // loads" behavior. Now expired tokens are treated as logged-out.
+    if (typeof user.exp === 'number' && Date.now() >= user.exp * 1000) {
+      this.removeToken();
+      return false;
+    }
+    return true;
   }
 
   getUserFromToken(): any {

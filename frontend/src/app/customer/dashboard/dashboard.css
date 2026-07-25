@@ -1,0 +1,79 @@
+/* customer/dashboard/dashboard.component.css */
+
+.dashboard-page {
+    padding-top: 1.5rem;
+}
+
+.welcome-block .eyebrow {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 0.25rem;
+}
+
+.welcome-block h2 {
+    font-size: 1.9rem;
+    font-weight: 600;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.action-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+}
+
+.action-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.4rem;
+}
+
+.action-label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text);
+}
+
+.action-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.logout-btn {
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 480px) {
+    .card-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .welcome-block h2 {
+        font-size: 1.5rem;
+    }
+}

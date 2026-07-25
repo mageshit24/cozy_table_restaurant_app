@@ -16,31 +16,31 @@ export class CustomerPayment implements OnInit {
   paymentMethod = 'card';
 
   /* Card fields */
-  cardNumber  = '';
-  cardHolder  = '';
-  expiryDate  = '';
-  cvv         = '';
+  cardNumber = '';
+  cardHolder = '';
+  expiryDate = '';
+  cvv = '';
 
   /* UPI field */
   upiId = '';
 
   /* State from router */
   orderId: number | null = null;
-  amount: number | null  = null;
+  amount: number | null = null;
 
   /* UI state */
   errors: Record<string, string> = {};
-  loading        = false;
+  loading = false;
   paymentSuccess = false;
-  paymentError   = '';
+  paymentError = '';
 
   /** BUG FIX: true once payment succeeds – all further submissions are blocked */
   private submitted = false;
 
   constructor(private http: HttpClient, private router: Router) {
-    const state  = history.state;
+    const state = history.state;
     this.orderId = state?.orderId || null;
-    this.amount  = state?.amount  || null;
+    this.amount = state?.amount || null;
   }
 
   ngOnInit(): void {
@@ -113,6 +113,22 @@ export class CustomerPayment implements OnInit {
     return Object.keys(this.errors).length === 0;
   }
 
+  /** BUG FIX: switching tabs only cleared field-level `errors`, leaving a stale
+   *  `paymentError` banner from a previous failed attempt visible on the new
+   *  tab (looked like the wrong/old response carrying over between options).
+   *  Also guards against switching methods while a submission is in-flight —
+   *  the tabs weren't disabled during `loading`, so a user could switch to a
+   *  different method while the previous one was still submitting; when that
+   *  stale request resolved, it flipped `paymentSuccess`/`paymentError` for
+   *  whatever tab they'd since switched to, looking like "the wrong response
+   *  loaded". */
+  selectMethod(method: string): void {
+    if (this.loading) return;
+    this.paymentMethod = method;
+    this.errors = {};
+    this.paymentError = '';
+  }
+
   processPayment(): void {
     /* BUG FIX: Idempotency guard – once payment has succeeded (or is in-flight)
        do not allow a second submission.  This prevents duplicate payments if the
@@ -121,13 +137,13 @@ export class CustomerPayment implements OnInit {
 
     if (!this.validate()) return;
 
-    this.loading      = true;
+    this.loading = true;
     this.paymentError = '';
-    this.submitted    = true;   // lock immediately before the HTTP call
+    this.submitted = true;   // lock immediately before the HTTP call
 
     const payload: Record<string, any> = {
       orderId: this.orderId,
-      method : this.paymentMethod
+      method: this.paymentMethod
     };
 
     if (this.paymentMethod === 'card') {
@@ -140,13 +156,13 @@ export class CustomerPayment implements OnInit {
 
     this.http.post('/api/payment', payload).subscribe({
       next: () => {
-        this.loading        = false;
+        this.loading = false;
         this.paymentSuccess = true;
       },
       error: (err) => {
         /* On error, release the lock so the user can correct and retry */
-        this.submitted    = false;
-        this.loading      = false;
+        this.submitted = false;
+        this.loading = false;
         this.paymentError = err.error?.message || 'Payment failed. Please try again.';
       }
     });

@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
 
 export const adminGuard: CanActivateFn = (route, state) => {
-const authService = inject(AuthService);
+  const authService = inject(AuthService);
   const router = inject(Router);
 
   if (!authService.isLoggedIn()) {
@@ -17,6 +17,6 @@ const authService = inject(AuthService);
     return true;
   }
 
-  router.navigate(['/customer/dashboard']);
+  router.navigate(['/customer']);
   return false;
 };

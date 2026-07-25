@@ -6,7 +6,7 @@
  */
 
 const { Order, Reservation, Feedback, User, sequelize } = require('../models');
-const { logActivity, logError } = require('../utils/logger');
+const { logActivity, sendError } = require('../utils/logger');
 
 exports.getStats = async (req, res) => {
   try {
@@ -29,7 +29,6 @@ exports.getStats = async (req, res) => {
 
     return res.json({ totalOrders, totalReservations, totalFeedback, totalUsers, totalRevenue });
   } catch (err) {
-    logError(req, 'ADMIN_STATS_ERROR', err);
-    return res.status(500).json({ message: 'Error fetching stats', error: err.message });
+    return sendError(res, req, 500, 'Error fetching stats', 'ADMIN_STATS_ERROR', err);
   }
 };

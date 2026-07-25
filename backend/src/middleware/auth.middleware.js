@@ -1,5 +1,6 @@
-const jwt            = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const TokenBlacklist = require('../models/tokenBlacklist.model');
+const { logger } = require('../utils/logger');
 
 /**
  * In-memory blacklist cache.
@@ -23,9 +24,9 @@ async function warmBlacklistCache() {
   try {
     const rows = await TokenBlacklist.findAll({ attributes: ['token'] });
     rows.forEach(r => blacklistedTokens.add(r.token));
-    console.log(`[auth] Blacklist cache warmed — ${blacklistedTokens.size} token(s) loaded`);
+    logger.info(`[auth] Blacklist cache warmed — ${blacklistedTokens.size} token(s) loaded`);
   } catch (err) {
-    console.warn('[auth] Could not warm blacklist cache:', err.message);
+    logger.warn(`[auth] Could not warm blacklist cache: ${err.message}`);
   }
 }
 
@@ -67,4 +68,4 @@ const authMiddleware = async (req, res, next) => {
 
 module.exports = authMiddleware;
 module.exports.warmBlacklistCache = warmBlacklistCache;
-module.exports.blacklistToken     = blacklistToken;
+module.exports.blacklistToken = blacklistToken;

@@ -7,9 +7,9 @@
  *  • POST protected by auth middleware; GET restricted to admin role
  */
 
-const router     = require("express").Router();
-const auth       = require("../middleware/auth.middleware");
-const role       = require("../middleware/role.middleware");
+const router = require("express").Router();
+const auth = require("../middleware/auth.middleware");
+const role = require("../middleware/role.middleware");
 const controller = require("../controllers/feedback.controller");
 
 /* Customer: submit new feedback */

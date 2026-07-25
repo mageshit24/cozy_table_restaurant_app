@@ -67,7 +67,7 @@ exports.processPayment = async (req, res) => {
 
     logActivity(req, 'PAYMENT_SUCCESS', {
       orderId,
-      paymentId:   payment.id,
+      paymentId: payment.id,
       method,
       totalAmount: order.totalAmount
     });
@@ -77,7 +77,7 @@ exports.processPayment = async (req, res) => {
     logError(req, 'PAYMENT_ERROR', err, { orderId });
     return res.status(500).json({
       message: 'Payment processing failed',
-      error:   err.message
+      error: err.message
     });
   }
 };

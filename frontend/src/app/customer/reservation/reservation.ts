@@ -32,7 +32,7 @@ export class ReservationComponent implements OnInit { // <-- Changed from Reserv
   time: any;
   guests: any;
 
-  constructor(private reservationService: ReservationService, private cdr: ChangeDetectorRef) {}
+  constructor(private reservationService: ReservationService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.loadMyReservations();
@@ -42,10 +42,14 @@ export class ReservationComponent implements OnInit { // <-- Changed from Reserv
   loadMyReservations(): void {
     this.loading = true;
     this.reservationService.getMyReservations().subscribe({
-      next: data => { this.reservations = data; this.loading = false;
-        this.cdr.detectChanges(); },
-      error: ()   => { this.errorMsg = 'Could not load reservations.'; this.loading = false;
-        this.cdr.detectChanges(); }
+      next: data => {
+        this.reservations = data; this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.errorMsg = 'Could not load reservations.'; this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -59,16 +63,16 @@ export class ReservationComponent implements OnInit { // <-- Changed from Reserv
     if (!this.isFormValid()) { this.errorMsg = 'Please fill all fields.'; return; }
     this.errorMsg = '';
     this.checkingAvailability = true;
-    this.availabilityChecked  = false;
+    this.availabilityChecked = false;
     this.reservationService.checkAvailability(this.newReservation).subscribe({
       next: (res: any) => {
-        this.availabilityChecked  = true;
-        this.isAvailable          = res.available;
+        this.availabilityChecked = true;
+        this.isAvailable = res.available;
         this.checkingAvailability = false;
       },
       error: () => {
-        this.availabilityChecked  = true;
-        this.isAvailable          = false;
+        this.availabilityChecked = true;
+        this.isAvailable = false;
         this.checkingAvailability = false;
       }
     });
@@ -76,9 +80,9 @@ export class ReservationComponent implements OnInit { // <-- Changed from Reserv
 
   // ── Create ──────────────────────────────────────────────────────────────
   createReservation(): void {
-    if (!this.isFormValid())                  { this.errorMsg = 'All fields are required.'; return; }
-    if (!this.availabilityChecked)            { this.errorMsg = 'Please check availability first.'; return; }
-    if (!this.isAvailable)                    { this.errorMsg = 'This slot is not available.'; return; }
+    if (!this.isFormValid()) { this.errorMsg = 'All fields are required.'; return; }
+    if (!this.availabilityChecked) { this.errorMsg = 'Please check availability first.'; return; }
+    if (!this.isAvailable) { this.errorMsg = 'This slot is not available.'; return; }
 
     this.reservationService.createReservation(this.newReservation).subscribe({
       next: () => {
@@ -94,7 +98,7 @@ export class ReservationComponent implements OnInit { // <-- Changed from Reserv
 
   // ── Edit ────────────────────────────────────────────────────────────────
   startEdit(res: Reservation): void {
-    this.editingId    = res.id;
+    this.editingId = res.id;
     // deep-copy relevant fields
     this.editSnapshot = { date: res.date, time: res.time, guests: res.guests };
   }
@@ -105,7 +109,7 @@ export class ReservationComponent implements OnInit { // <-- Changed from Reserv
     }).subscribe({
       next: () => {
         this.successMsg = 'Reservation updated.';
-        this.editingId  = null;
+        this.editingId = null;
         this.loadMyReservations();
       },
       error: (err: any) => {
@@ -116,8 +120,8 @@ export class ReservationComponent implements OnInit { // <-- Changed from Reserv
 
   cancelEdit(res: Reservation): void {
     // restore snapshot
-    res.date   = this.editSnapshot.date   as string;
-    res.time   = this.editSnapshot.time   as string;
+    res.date = this.editSnapshot.date as string;
+    res.time = this.editSnapshot.time as string;
     res.guests = this.editSnapshot.guests as number;
     this.editingId = null;
   }
@@ -127,7 +131,7 @@ export class ReservationComponent implements OnInit { // <-- Changed from Reserv
     if (!confirm('Are you sure you want to cancel this reservation?')) return;
     this.reservationService.deleteReservation(id).subscribe({
       next: () => {
-        this.successMsg  = 'Reservation cancelled.';
+        this.successMsg = 'Reservation cancelled.';
         this.reservations = this.reservations.filter(r => r.id !== id);
       },
       error: () => { this.errorMsg = 'Failed to cancel reservation.'; }
@@ -136,20 +140,20 @@ export class ReservationComponent implements OnInit { // <-- Changed from Reserv
 
   // ── Reset ───────────────────────────────────────────────────────────────
   resetForm(): void {
-    this.newReservation    = { date: '', time: '', guests: 1 };
+    this.newReservation = { date: '', time: '', guests: 1 };
     this.availabilityChecked = false;
-    this.isAvailable         = null;
-    this.errorMsg            = '';
+    this.isAvailable = null;
+    this.errorMsg = '';
   }
 
   clearMessages(): void {
-    this.errorMsg   = '';
+    this.errorMsg = '';
     this.successMsg = '';
   }
 
   getStatusClass(status: string): string {
     const map: Record<string, string> = {
-      pending:   'status-pending',
+      pending: 'status-pending',
       confirmed: 'status-approved',
       cancelled: 'status-rejected'
     };

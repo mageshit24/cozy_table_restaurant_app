@@ -1,33 +1,46 @@
-<div class="dashboard-container">
+<!-- customer/dashboard/dashboard.component.html – quick-action home screen -->
+<div class="dashboard-page page-wrapper">
 
-  <h2>Welcome {{ username || 'Customer' }} </h2>
+  <div class="welcome-block">
+    <span class="eyebrow">Welcome back</span>
+    <h2>{{ username || 'Guest' }}</h2>
+  </div>
+  <div class="ticket-rule"></div>
 
   <div class="card-grid">
 
-    <div class="card" (click)="goTo('/customer/menu')">
-      View Menu
-    </div>
+    <button class="action-card" (click)="goTo('/customer/menu')">
+      <span class="action-icon">🍽️</span>
+      <span class="action-label">View Menu</span>
+      <span class="action-hint">Browse today's dishes</span>
+    </button>
 
-    <div class="card" (click)="goTo('/customer/cart')">
-      My Cart
-    </div>
+    <button class="action-card" (click)="goTo('/customer/cart')">
+      <span class="action-icon">🛒</span>
+      <span class="action-label">My Cart</span>
+      <span class="action-hint">Review before you order</span>
+    </button>
 
-    <div class="card" (click)="goTo('/customer/orders')">
-      My Orders
-    </div>
+    <button class="action-card" (click)="goTo('/customer/orders')">
+      <span class="action-icon">🧾</span>
+      <span class="action-label">My Orders</span>
+      <span class="action-hint">Track past & current orders</span>
+    </button>
 
-    <div class="card" (click)="goTo('/customer/reservation')">
-      Reservation
-    </div>
+    <button class="action-card" (click)="goTo('/customer/reservation')">
+      <span class="action-icon">📅</span>
+      <span class="action-label">Reservation</span>
+      <span class="action-hint">Book a table</span>
+    </button>
 
-    <div class="card" (click)="goTo('/customer/feedback')">
-      Give Feedback
-    </div>
+    <button class="action-card" (click)="goTo('/customer/feedback')">
+      <span class="action-icon">💬</span>
+      <span class="action-label">Give Feedback</span>
+      <span class="action-hint">Tell us how we did</span>
+    </button>
 
   </div>
 
-  <button class="logout-btn" (click)="logout()">
-    Logout
-  </button>
+  <button class="btn btn-ghost logout-btn" (click)="logout()">Logout</button>
 
 </div>

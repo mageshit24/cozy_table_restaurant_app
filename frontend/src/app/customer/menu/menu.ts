@@ -13,20 +13,20 @@ import { MenuItem, MenuService } from '../../services/menu';
   styleUrl: './menu.css',
 })
 export class CustomerMenu implements OnInit, OnDestroy {
-menuItems:     MenuItem[] = [];
+  menuItems: MenuItem[] = [];
   filteredItems: MenuItem[] = [];
   loading = true;
 
-  searchTerm        = '';
-  selectedCategory  = '';
+  searchTerm = '';
+  selectedCategory = '';
   categories = ['starters', 'mains', 'desserts', 'beverages', 'alcoholic-beverages'];
 
   addedItemId: number | null = null;
 
   private searchSubject = new Subject<string>();
-  private destroy$      = new Subject<void>();
+  private destroy$ = new Subject<void>();
 
-  constructor(private menuService: MenuService, private cartService: CartService, private cdr: ChangeDetectorRef) {}
+  constructor(private menuService: MenuService, private cartService: CartService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.searchSubject.pipe(
@@ -46,17 +46,21 @@ menuItems:     MenuItem[] = [];
   loadMenu(): void {
     this.loading = true;
     this.menuService.getMenu(
-      this.searchTerm     || undefined,
+      this.searchTerm || undefined,
       this.selectedCategory || undefined
     ).subscribe({
-      next:  data => { this.filteredItems = data; this.loading = false;
-        this.cdr.detectChanges(); },
-      error: ()   => { this.loading = false;
-        this.cdr.detectChanges(); }
+      next: data => {
+        this.filteredItems = data; this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
-  onSearchChange(): void  { this.searchSubject.next(this.searchTerm); }
+  onSearchChange(): void { this.searchSubject.next(this.searchTerm); }
 
   onCategoryChange(cat: string): void {
     this.selectedCategory = this.selectedCategory === cat ? '' : cat;
@@ -64,7 +68,7 @@ menuItems:     MenuItem[] = [];
   }
 
   clearFilters(): void {
-    this.searchTerm       = '';
+    this.searchTerm = '';
     this.selectedCategory = '';
     this.loadMenu();
   }
@@ -82,7 +86,7 @@ menuItems:     MenuItem[] = [];
    */
   getImageUrl(item: MenuItem): string {
     if (item.imageUrl) return item.imageUrl;
-    if (item.image)    return `/uploads/${item.image}`;
+    if (item.image) return `/uploads/${item.image}`;
     return 'https://placehold.co/320x200/f5f5f7/6b7280?text=No+Image';
   }
 }

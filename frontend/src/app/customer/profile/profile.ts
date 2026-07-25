@@ -26,15 +26,15 @@ export class CustomerProfile implements OnInit {
 
   /* Change password */
   showPasswordForm = false;
-  oldPassword       = '';
-  newPassword       = '';
-  confirmPassword   = '';
+  oldPassword = '';
+  newPassword = '';
+  confirmPassword = '';
   passwordErrors: Record<string, string> = {};
-  passwordMessage   = '';
+  passwordMessage = '';
   passwordType: 'success' | 'error' = 'success';
-  savingPassword    = false;
+  savingPassword = false;
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void { this.loadProfile(); }
 
@@ -42,23 +42,27 @@ export class CustomerProfile implements OnInit {
   loadProfile(): void {
     this.loading = true;
     this.http.get('/api/auth/profile').subscribe({
-      next : (data: any) => { this.profile = data; this.loading = false;
-        this.cdr.detectChanges(); },
-      error: ()          => { this.loading = false;
-        this.cdr.detectChanges(); }
+      next: (data: any) => {
+        this.profile = data; this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
   /* ── Edit Profile ─────────────────────────────────────────────────────── */
   startEdit(): void {
-    this.editData   = { name: this.profile.name, phone: this.profile.phone };
-    this.editMode   = true;
+    this.editData = { name: this.profile.name, phone: this.profile.phone };
+    this.editMode = true;
     this.editErrors = {};
-    this.message    = '';
+    this.message = '';
   }
 
   cancelEdit(): void {
-    this.editMode   = false;
+    this.editMode = false;
     this.editErrors = {};
   }
 
@@ -78,8 +82,8 @@ export class CustomerProfile implements OnInit {
     this.savingProfile = true;
     this.http.put('/api/auth/profile', this.editData).subscribe({
       next: () => {
-        this.profile       = { ...this.profile, ...this.editData };
-        this.editMode      = false;
+        this.profile = { ...this.profile, ...this.editData };
+        this.editMode = false;
         this.savingProfile = false;
         this.showMessage('Profile updated successfully!', 'success');
       },
@@ -94,7 +98,7 @@ export class CustomerProfile implements OnInit {
   togglePasswordForm(): void {
     this.showPasswordForm = !this.showPasswordForm;
     this.oldPassword = this.newPassword = this.confirmPassword = '';
-    this.passwordErrors  = {};
+    this.passwordErrors = {};
     this.passwordMessage = '';
   }
 
@@ -122,28 +126,28 @@ export class CustomerProfile implements OnInit {
   changePassword(): void {
     if (!this.validatePasswordForm()) return;
     this.savingPassword = true;
-    this.http.post('/api/auth/change-password', {
+    this.http.put('/api/auth/change-password', {
       oldPassword: this.oldPassword,
       newPassword: this.newPassword
     }).subscribe({
       next: () => {
-        this.savingPassword  = false;
+        this.savingPassword = false;
         this.showPasswordForm = false;
         this.oldPassword = this.newPassword = this.confirmPassword = '';
         this.passwordMessage = '✅ Password changed successfully!';
-        this.passwordType    = 'success';
+        this.passwordType = 'success';
         setTimeout(() => this.passwordMessage = '', 4000);
       },
       error: (err) => {
-        this.savingPassword  = false;
+        this.savingPassword = false;
         this.passwordMessage = err.error?.message || 'Failed to change password';
-        this.passwordType    = 'error';
+        this.passwordType = 'error';
       }
     });
   }
 
   private showMessage(msg: string, type: 'success' | 'error'): void {
-    this.message     = msg;
+    this.message = msg;
     this.messageType = type;
     setTimeout(() => this.message = '', 4000);
   }

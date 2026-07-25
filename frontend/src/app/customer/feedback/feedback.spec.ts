@@ -10,7 +10,7 @@ describe('Feedback', () => {
     await TestBed.configureTestingModule({
       imports: [Feedback]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(Feedback);
     component = fixture.componentInstance;

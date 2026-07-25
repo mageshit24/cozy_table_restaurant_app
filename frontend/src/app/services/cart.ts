@@ -16,7 +16,7 @@ export class CartService {
   // In-memory cart — kept in sync with backend
   private cart: CartItem[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // ── Backend sync helpers ─────────────────────────────────────────────────
 
@@ -25,15 +25,15 @@ export class CartService {
     return this.http.get<any[]>(this.API).pipe(
       tap(items => {
         this.cart = items.map(i => ({
-          id:          i.Menu?.id    ?? i.menuId,
-          name:        i.Menu?.name  ?? '',
-          price:       i.Menu?.price ?? 0,
+          id: i.Menu?.id ?? i.menuId,
+          name: i.Menu?.name ?? '',
+          price: i.Menu?.price ?? 0,
           description: i.Menu?.description ?? '',
-          category:    i.Menu?.category,
-          image:       i.Menu?.image,
-          imageUrl:    i.Menu?.imageUrl,
-          quantity:    i.quantity,
-          cartId:      i.id          // DB row id
+          category: i.Menu?.category,
+          image: i.Menu?.image,
+          imageUrl: i.Menu?.imageUrl,
+          quantity: i.quantity,
+          cartId: i.id          // DB row id
         }));
       }),
       catchError(() => of([]))
@@ -73,7 +73,7 @@ export class CartService {
 
   // ── Local helpers (used by CartComponent for display) ───────────────────
 
-  getCart(): CartItem[]  { return this.cart; }
+  getCart(): CartItem[] { return this.cart; }
 
   increaseQuantity(id: number): void {
     const item = this.cart.find(i => i.id === id);

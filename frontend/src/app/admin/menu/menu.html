@@ -4,8 +4,10 @@
     <h2>🍽️ Manage Menu</h2>
     <button class="btn btn-primary" (click)="resetForm()">+ New Item</button>
   </div>
+  <div class="ticket-rule"></div>
 
-  <div *ngIf="message" class="alert" [ngClass]="messageType === 'success' ? 'alert-success' : 'alert-error'">{{ message }}</div>
+  <div *ngIf="message" class="alert" [ngClass]="messageType === 'success' ? 'alert-success' : 'alert-error'">{{ message
+    }}</div>
 
   <!-- Form -->
   <div class="card form-card">
@@ -13,12 +15,14 @@
     <div class="form-grid">
       <div class="form-group">
         <label>Item Name *</label>
-        <input type="text" placeholder="e.g. Butter Chicken" [(ngModel)]="newItem.name" [class.error]="errors['name']" />
+        <input type="text" placeholder="e.g. Butter Chicken" [(ngModel)]="newItem.name"
+          [class.error]="errors['name']" />
         <span class="field-error" *ngIf="errors['name']">{{ errors['name'] }}</span>
       </div>
       <div class="form-group">
         <label>Price (₹) *</label>
-        <input type="number" min="1" placeholder="e.g. 350" [(ngModel)]="newItem.price" [class.error]="errors['price']" />
+        <input type="number" min="1" placeholder="e.g. 350" [(ngModel)]="newItem.price"
+          [class.error]="errors['price']" />
         <span class="field-error" *ngIf="errors['price']">{{ errors['price'] }}</span>
       </div>
       <div class="form-group full">
@@ -33,7 +37,6 @@
           <option value="mains">Mains</option>
           <option value="desserts">Desserts</option>
           <option value="beverages">Beverages</option>
-          <option value="alcoholic-beverages">Alcoholic Beverages</option>
         </select>
         <span class="field-error" *ngIf="errors['category']">{{ errors['category'] }}</span>
       </div>
@@ -50,7 +53,8 @@
       </div>
     </div>
     <div class="form-actions">
-      <button class="btn btn-primary" (click)="saveMenu()" [disabled]="loading">{{ loading ? '⏳ Saving...' : (editMode ? 'Update Item' : 'Add Item') }}</button>
+      <button class="btn btn-primary" (click)="saveMenu()" [disabled]="loading">{{ loading ? '⏳ Saving...' : (editMode ?
+        'Update Item' : 'Add Item') }}</button>
       <button class="btn btn-ghost" *ngIf="editMode" (click)="resetForm()">Cancel</button>
     </div>
   </div>
@@ -59,7 +63,8 @@
   <div class="table-controls card">
     <div class="search-wrap">
       <span>🔍</span>
-      <input type="text" placeholder="Search menu items..." [(ngModel)]="tableSearch" (ngModelChange)="applyTableFilter()" class="search-input" />
+      <input type="text" placeholder="Search menu items..." [(ngModel)]="tableSearch"
+        (ngModelChange)="applyTableFilter()" class="search-input" />
     </div>
     <select [(ngModel)]="tableCategory" (ngModelChange)="applyTableFilter()" class="cat-select">
       <option value="">All Categories</option>
@@ -76,12 +81,22 @@
   <div class="card table-card">
     <div class="table-wrap">
       <table class="data-table">
-        <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Description</th><th>Actions</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
         <tbody>
           <tr *ngFor="let item of filteredItems">
-            <td><img class="thumb" [src]="getImageUrl(item)" [alt]="item.name" (error)="$any($event.target).src='https://placehold.co/60x60/f5f5f7/6b7280?text=No+Img'" /></td>
+            <td><img class="thumb" [src]="getImageUrl(item)" [alt]="item.name"
+                (error)="$any($event.target).src='https://placehold.co/60x60/f7f1e4/6b6255?text=No+Img'" /></td>
             <td><strong>{{ item.name }}</strong></td>
-            <td><span class="badge" style="background:var(--info-bg);color:var(--info)">{{ item.category || '—' }}</span></td>
+            <td><span class="badge badge-customer">{{ item.category || '—' }}</span></td>
             <td>₹{{ item.price }}</td>
             <td class="desc-cell">{{ item.description || '—' }}</td>
             <td class="action-cell">

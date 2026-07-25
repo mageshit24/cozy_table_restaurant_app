@@ -1,44 +1,52 @@
-.feedback-container {
-  width: 400px;
-  margin: 40px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #f9f9f9;
+/* customer/feedback/feedback.component.css */
+
+.feedback-page {
+  padding-top: 2rem;
 }
 
-h2 {
+.feedback-container {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.feedback-container h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
   text-align: center;
 }
 
-label {
-  display: block;
-  margin-top: 10px;
+.subtitle {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
 }
 
-select,
-textarea {
+.feedback-container select,
+.feedback-container textarea {
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  background: var(--surface);
+  color: var(--text);
 }
 
-button {
-  margin-top: 15px;
-  width: 100%;
-  padding: 10px;
-  background: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #0056b3;
+.feedback-container textarea {
+  resize: vertical;
 }
 
 .message {
-  margin-top: 15px;
+  margin-top: 1rem;
   text-align: center;
-  color: green;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--success);
+}
+
+.message-error {
+  color: var(--danger);
 }

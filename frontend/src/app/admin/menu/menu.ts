@@ -12,7 +12,7 @@ import { MenuItem, MenuService } from '../../services/menu';
   styleUrl: './menu.css',
 })
 export class AdminMenu implements OnInit {
-menuItems: MenuItem[] = [];
+  menuItems: MenuItem[] = [];
   filteredItems: MenuItem[] = [];
   newItem: Partial<MenuItem> = { name: '', price: 0, description: '', category: '' };
   errors: Record<string, string> = {};
@@ -76,10 +76,14 @@ menuItems: MenuItem[] = [];
       ? this.http.put(`/api/menu/${this.editId}`, formData)
       : this.http.post('/api/menu', formData);
     req$.subscribe({
-      next: () => { this.loading = false;
-        this.cdr.detectChanges(); this.showMessage(this.editMode ? 'Updated!' : 'Added!', 'success'); this.resetForm(); this.loadMenu(); },
-      error: () => { this.loading = false;
-        this.cdr.detectChanges(); this.showMessage('Failed to save item.', 'error'); }
+      next: () => {
+        this.loading = false;
+        this.cdr.detectChanges(); this.showMessage(this.editMode ? 'Updated!' : 'Added!', 'success'); this.resetForm(); this.loadMenu();
+      },
+      error: () => {
+        this.loading = false;
+        this.cdr.detectChanges(); this.showMessage('Failed to save item.', 'error');
+      }
     });
   }
 

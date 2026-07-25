@@ -75,7 +75,7 @@ exports.getCart = async (req, res, next) => {
             "price",
             "description",
             "category",
-            "image"
+            "imageUrl"
           ]
         }
       ]

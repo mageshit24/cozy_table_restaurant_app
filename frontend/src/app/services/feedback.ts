@@ -10,7 +10,7 @@ export interface Feedback { rating: number; comment: string; }
 @Injectable({ providedIn: 'root' })
 export class FeedbackService {
   private api = '/api/feedback';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   addFeedback(data: Feedback): Observable<any> {
     return this.http.post(this.api, data);

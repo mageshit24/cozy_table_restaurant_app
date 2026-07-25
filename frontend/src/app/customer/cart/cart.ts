@@ -14,34 +14,38 @@ import { OrderService } from '../../services/order';
 export class CustomerCart implements OnInit {
 
   cartItems: CartItem[] = [];
-  loading  = true;
-  placing  = false;
-  message  = '';
+  loading = true;
+  placing = false;
+  message = '';
   msgType: 'success' | 'error' = 'success';
 
   constructor(
-    private cartService:  CartService,
+    private cartService: CartService,
     private orderService: OrderService,
-    private router:       Router, private cdr: ChangeDetectorRef) {}
+    private router: Router, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     // Always load fresh from server so backend Cart table is the source of truth
     this.cartService.loadCartFromServer().subscribe({
-      next:  ()  => { this.cartItems = this.cartService.getCart(); this.loading = false;
-        this.cdr.detectChanges(); },
-      error: ()  => { this.loading = false;
-        this.cdr.detectChanges(); }
+      next: () => {
+        this.cartItems = this.cartService.getCart(); this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
   refresh(): void { this.cartItems = this.cartService.getCart(); }
 
-  increase(id: number): void  { this.cartService.increaseQuantity(id); this.refresh(); }
-  decrease(id: number): void  { this.cartService.decreaseQuantity(id); this.refresh(); }
-  remove(id: number):   void  { this.cartService.removeItem(id);       this.refresh(); }
+  increase(id: number): void { this.cartService.increaseQuantity(id); this.refresh(); }
+  decrease(id: number): void { this.cartService.decreaseQuantity(id); this.refresh(); }
+  remove(id: number): void { this.cartService.removeItem(id); this.refresh(); }
 
   getTotal(): number { return this.cartService.getTotal(); }
-  getTax():   number { return Math.round(this.getTotal() * 0.05); }
+  getTax(): number { return Math.round(this.getTotal() * 0.05); }
   getGrand(): number { return this.getTotal() + this.getTax(); }
 
   clearCart(): void {
@@ -78,7 +82,7 @@ export class CustomerCart implements OnInit {
 
   getImageUrl(item: CartItem): string {
     if (item.imageUrl) return item.imageUrl;
-    if (item.image)    return `/uploads/${item.image}`;
+    if (item.image) return `/uploads/${item.image}`;
     return 'https://placehold.co/60x60/f5f5f7/6b7280?text=🍽';
   }
 }

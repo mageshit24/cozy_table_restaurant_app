@@ -10,7 +10,7 @@ describe('Menu', () => {
     await TestBed.configureTestingModule({
       imports: [Menu]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(Menu);
     component = fixture.componentInstance;

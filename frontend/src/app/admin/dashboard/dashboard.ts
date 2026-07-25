@@ -13,22 +13,22 @@ import { interval, startWith, Subscription, switchMap, catchError, of } from 'rx
 })
 export class AdminDashboard implements OnInit, OnDestroy {
 
-  totalOrders       = 0;
+  totalOrders = 0;
   totalReservations = 0;
-  totalFeedback     = 0;
-  totalUsers        = 0;
-  totalRevenue      = '0.00';
+  totalFeedback = 0;
+  totalUsers = 0;
+  totalRevenue = '0.00';
 
   /** BUG FIX: loading starts true but is ALWAYS set to false in both
    *  next and error paths — it can never get stuck on "Refreshing..." */
-  loading     = true;
-  loadError   = false;          // shown when the API call fails
+  loading = true;
+  loadError = false;          // shown when the API call fails
   lastUpdated: Date | null = null;
 
   private pollSub!: Subscription;
   private readonly POLL_INTERVAL = 30_000; // 30 s
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.pollSub = interval(this.POLL_INTERVAL)
@@ -55,34 +55,34 @@ export class AdminDashboard implements OnInit, OnDestroy {
           return;
         }
 
-        this.loadError        = false;
-        this.totalOrders      = res.totalOrders      ?? 0;
-        this.totalReservations= res.totalReservations?? 0;
-        this.totalFeedback    = res.totalFeedback    ?? 0;
-        this.totalUsers       = res.totalUsers       ?? 0;
-        this.totalRevenue     = res.totalRevenue     ?? '0.00';
-        this.lastUpdated      = new Date();
+        this.loadError = false;
+        this.totalOrders = res.totalOrders ?? 0;
+        this.totalReservations = res.totalReservations ?? 0;
+        this.totalFeedback = res.totalFeedback ?? 0;
+        this.totalUsers = res.totalUsers ?? 0;
+        this.totalRevenue = res.totalRevenue ?? '0.00';
+        this.lastUpdated = new Date();
       });
   }
 
   /** Manual refresh */
   refresh(): void {
-    this.loading   = true;
+    this.loading = true;
     this.loadError = false;
     this.http.get<any>('/api/admin/stats').subscribe({
       next: (res) => {
-        this.totalOrders       = res.totalOrders       ?? 0;
+        this.totalOrders = res.totalOrders ?? 0;
         this.totalReservations = res.totalReservations ?? 0;
-        this.totalFeedback     = res.totalFeedback     ?? 0;
-        this.totalUsers        = res.totalUsers        ?? 0;
-        this.totalRevenue      = res.totalRevenue      ?? '0.00';
-        this.loading           = false;
+        this.totalFeedback = res.totalFeedback ?? 0;
+        this.totalUsers = res.totalUsers ?? 0;
+        this.totalRevenue = res.totalRevenue ?? '0.00';
+        this.loading = false;
         this.cdr.detectChanges();
-        this.lastUpdated       = new Date();
+        this.lastUpdated = new Date();
       },
       error: (err) => {
         console.error('[dashboard] manual refresh error:', err?.status);
-        this.loading   = false;
+        this.loading = false;
         this.cdr.detectChanges();
         this.loadError = true;
       }

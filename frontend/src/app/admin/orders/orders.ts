@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Order, OrderService } from '../../services/order';
 
 const ALLOWED_TRANSITIONS: Record<string, string[]> = {
-  pending:   ['preparing', 'cancelled'],
+  pending: ['preparing', 'cancelled'],
   preparing: ['delivered', 'cancelled'],
   delivered: [],
   cancelled: []
@@ -23,14 +23,18 @@ export class AdminOrders implements OnInit {
   message = '';
   messageType: 'success' | 'error' = 'success';
 
-  constructor(private orderService: OrderService, private cdr: ChangeDetectorRef) {}
+  constructor(private orderService: OrderService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.orderService.getMyOrders().subscribe({
-      next : (data: Order[]) => { this.orders = data; this.loading = false;
-        this.cdr.detectChanges(); },
-      error: ()              => { this.loading = false;
-        this.cdr.detectChanges(); }
+      next: (data: Order[]) => {
+        this.orders = data; this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -66,7 +70,7 @@ export class AdminOrders implements OnInit {
 
   getStatusClass(status: string): string {
     const map: Record<string, string> = {
-      pending:   'status-pending',
+      pending: 'status-pending',
       preparing: 'status-preparing',
       delivered: 'status-delivered',
       cancelled: 'status-cancelled'
@@ -75,7 +79,7 @@ export class AdminOrders implements OnInit {
   }
 
   private showMessage(msg: string, type: 'success' | 'error'): void {
-    this.message     = msg;
+    this.message = msg;
     this.messageType = type;
     setTimeout(() => this.message = '', 5000);
   }

@@ -1,15 +1,21 @@
 <!-- admin/orders/orders.html -->
-<div class="admin-orders">
-  <h2>All Orders</h2>
+<div class="admin-orders page-wrapper">
+  <div class="page-header">
+    <h2>All Orders</h2>
+  </div>
+  <div class="ticket-rule"></div>
 
   <p *ngIf="message" class="flash" [ngClass]="messageType === 'error' ? 'flash-error' : 'flash-success'">
     {{ message }}
   </p>
 
-  <div *ngIf="loading" class="loading">Loading...</div>
+  <div *ngIf="loading" class="loading-block">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
 
-  <div class="table-wrap" *ngIf="!loading">
-    <table>
+  <div class="table-wrap card" *ngIf="!loading">
+    <table class="data-table">
       <thead>
         <tr>
           <th>Order ID</th>
@@ -36,11 +42,9 @@
               'cancelled'). The backend enforces the same state machine, so even
               if someone bypasses the UI they will get a 409 response.
             -->
-            <select
-              [disabled]="isTerminal(order)"
+            <select [disabled]="isTerminal(order)"
               [title]="isTerminal(order) ? 'Order is ' + order.status + ' and cannot be changed' : 'Change status'"
-              (change)="updateStatus(order, $any($event.target).value)"
-              [value]="order.status">
+              (change)="updateStatus(order, $any($event.target).value)" [value]="order.status">
 
               <!-- Current status always shown first -->
               <option [value]="order.status" selected>{{ order.status }}</option>

@@ -1,6 +1,9 @@
-<div class="admin-reservations">
+<div class="admin-reservations page-wrapper">
 
-  <h2>Manage Reservations</h2>
+  <div class="page-header">
+    <h2>Manage Reservations</h2>
+  </div>
+  <div class="ticket-rule"></div>
 
   <!-- =========================
        FILTERS
@@ -11,9 +14,7 @@
     <label>
       Status:
 
-      <select
-        [(ngModel)]="filterStatus"
-        name="filterStatus">
+      <select [(ngModel)]="filterStatus" name="filterStatus">
 
         <option value="">All</option>
 
@@ -35,19 +36,14 @@
     <label>
       Date:
 
-      <input
-        type="date"
-        [(ngModel)]="filterDate"
-        name="filterDate">
+      <input type="date" [(ngModel)]="filterDate" name="filterDate">
     </label>
 
     <button (click)="applyFilters()">
       Apply
     </button>
 
-    <button
-      class="btn-secondary"
-      (click)="clearFilters()">
+    <button class="btn-secondary" (click)="clearFilters()">
 
       Clear
     </button>
@@ -58,16 +54,12 @@
        LOADING / ERROR
   ========================== -->
 
-  <div
-    *ngIf="loading"
-    class="loading">
+  <div *ngIf="loading" class="loading">
 
     Loading reservations...
   </div>
 
-  <div
-    *ngIf="error"
-    class="error-msg">
+  <div *ngIf="error" class="error-msg">
 
     {{ error }}
   </div>
@@ -76,121 +68,114 @@
        TABLE
   ========================== -->
 
-  <table
-    *ngIf="
+  <div class="table-wrap card" *ngIf="
       !loading &&
       reservations.length > 0
     ">
+    <table class="data-table">
 
-    <thead>
+      <thead>
 
-      <tr>
+        <tr>
 
-        <th>ID</th>
+          <th>ID</th>
 
-        <th>Customer</th>
+          <th>Customer</th>
 
-        <th>Email</th>
+          <th>Email</th>
 
-        <th>Date</th>
+          <th>Date</th>
 
-        <th>Time</th>
+          <th>Time</th>
 
-        <th>Guests</th>
+          <th>Guests</th>
 
-        <th>Status</th>
+          <th>Status</th>
 
-        <th>Actions</th>
+          <th>Actions</th>
 
-      </tr>
+        </tr>
 
-    </thead>
+      </thead>
 
-    <tbody>
+      <tbody>
 
-      <tr *ngFor="let r of reservations">
+        <tr *ngFor="let r of reservations">
 
-        <td>{{ r.id }}</td>
+          <td>{{ r.id }}</td>
 
-        <!-- USER NAME -->
+          <!-- USER NAME -->
 
-        <td>
-          {{ r.User?.name || ('User #' + r.userId) }}
-        </td>
+          <td>
+            {{ r.User?.name || ('User #' + r.userId) }}
+          </td>
 
-        <!-- USER EMAIL -->
+          <!-- USER EMAIL -->
 
-        <td>
-          {{ r.User?.email || 'N/A' }}
-        </td>
+          <td>
+            {{ r.User?.email || 'N/A' }}
+          </td>
 
-        <td>{{ r.date }}</td>
+          <td>{{ r.date }}</td>
 
-        <td>{{ r.time }}</td>
+          <td>{{ r.time }}</td>
 
-        <td>{{ r.guests }}</td>
+          <td>{{ r.guests }}</td>
 
-        <!-- STATUS -->
+          <!-- STATUS -->
 
-        <td>
+          <td>
 
-          <select
-            [(ngModel)]="r.status"
-            [name]="'status' + r.id">
+            <select [(ngModel)]="r.status" [name]="'status' + r.id">
 
-            <option value="pending">
-              Pending
-            </option>
+              <option value="pending">
+                Pending
+              </option>
 
-            <option value="confirmed">
-              Confirmed
-            </option>
+              <option value="confirmed">
+                Confirmed
+              </option>
 
-            <option value="cancelled">
-              Cancelled
-            </option>
+              <option value="cancelled">
+                Cancelled
+              </option>
 
-          </select>
+            </select>
 
-        </td>
+          </td>
 
-        <!-- ACTIONS -->
+          <!-- ACTIONS -->
 
-        <td>
+          <td>
 
-          <button
-            (click)="updateStatus(r)"
-            [disabled]="!isDirty(r)">
+            <button (click)="updateStatus(r)" [disabled]="!isDirty(r)">
 
-            Update
-          </button>
+              Update
+            </button>
 
-          <button
-            class="btn-danger"
-            (click)="deleteReservation(r.id)">
+            <button class="btn-danger" (click)="deleteReservation(r.id)">
 
-            Delete
-          </button>
+              Delete
+            </button>
 
-        </td>
+          </td>
 
-      </tr>
+        </tr>
 
-    </tbody>
+      </tbody>
 
-  </table>
+    </table>
+  </div>
 
   <!-- =========================
        EMPTY
   ========================== -->
 
-  <p
-    *ngIf="
+  <p *ngIf="
       !loading &&
       !error &&
       reservations.length === 0
-    "
-    class="empty">
+    " class="empty">
 
     No reservations found.
 

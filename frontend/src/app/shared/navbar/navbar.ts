@@ -25,11 +25,11 @@ export class Navbar {
       .subscribe(() => this.menuOpen = false);
   }
 
-  get role(): string | null      { return this.authService.getUserRole(); }
-  get isLoggedIn(): boolean      { return this.authService.isLoggedIn(); }
-  get cartCount(): number        { return this.cartService.getCart().length; }
+  get role(): string | null { return this.authService.getUserRole(); }
+  get isLoggedIn(): boolean { return this.authService.isLoggedIn(); }
+  get cartCount(): number { return this.cartService.getCart().length; }
 
-  toggleMenu()  { this.menuOpen = !this.menuOpen; }
+  toggleMenu() { this.menuOpen = !this.menuOpen; }
 
   logout() {
     this.authService.logout();
