@@ -1,6 +1,6 @@
-# 🍽️ The Cozy Table — Restaurant Management Web App
+# 🍽️ The Cozy Table - Restaurant Management Web App
 
-A full-stack restaurant management system with separate **customer** and **admin** experiences — online menu browsing, cart & ordering, table reservations, payments, and feedback, backed by a secure JWT-authenticated REST API.
+A full-stack restaurant management system with separate **customer** and **admin** experiences - online menu browsing, cart & ordering, table reservations, payments, and feedback, backed by a secure JWT-authenticated REST API.
 
 > 🎓 Internship Training Project
 
@@ -155,11 +155,11 @@ cd backend
 npm install
 ```
 
-Create a `backend/.env` file (not committed — already gitignored):
+Create a `backend/.env` file (not committed - already gitignored):
 ```env
 PORT=5000
 DB_HOST=localhost
-DB_NAME=restro_hub
+DB_NAME=your_db_name
 DB_USER=root
 DB_PASSWORD=your_mysql_password
 JWT_SECRET=your_jwt_secret
@@ -187,7 +187,7 @@ npm start
 ```
 The app runs on `http://localhost:4200` and proxies API calls to the backend (see `proxyconfig.json`).
 
-> ℹ️ There's no admin registration UI — promote a user to admin directly in MySQL (`UPDATE users SET role = 'admin' WHERE id = ...;`) or via a one-off API call.
+> ℹ️ There's no admin registration UI - promote a user to admin directly in MySQL (`UPDATE users SET role = 'admin' WHERE id = ...;`) or via a one-off API call.
 
 ---
 
@@ -196,67 +196,68 @@ The app runs on `http://localhost:4200` and proxies API calls to the backend (se
 ### 🔐 Authentication
 
 #### Login Page
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/45aff7a6-1f39-4e9b-8f59-329026287150" />
+<img width="1917" height="973" alt="Screenshot 2026-07-26 012057" src="https://github.com/user-attachments/assets/24940f5a-d3eb-4668-ac7c-5202640901a8" />
 
 #### Registration Page
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/3346b0fc-2180-4cc0-9a87-3c77a94e73ce" />
+<img width="1917" height="970" alt="Screenshot 2026-07-26 012114" src="https://github.com/user-attachments/assets/d78f7230-3b0e-495b-bac4-d20601b46b38" />
 
 ---
 
 ### 👨‍🍳 Customer Experience
 
 #### Customer Dashboard
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/068663a8-35e7-4a9e-b8df-a4105b47dcb8" />
+<img width="1917" height="965" alt="Screenshot 2026-07-26 011136" src="https://github.com/user-attachments/assets/b32ab05b-dc58-45ec-b062-90f6f68381ab" />
 
 #### Browse Menu
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/22c90bfd-6f8d-4468-9eb1-26a7144b235a" />
+<img width="1917" height="972" alt="Screenshot 2026-07-26 011115" src="https://github.com/user-attachments/assets/320bc5e5-c4f9-4d6f-b883-90ec73eb2998" />
 
 #### Shopping Cart
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/fb65aa01-0a14-4cd8-8983-93f6109f67f1" />
+<img width="1915" height="981" alt="Screenshot 2026-07-26 011342" src="https://github.com/user-attachments/assets/d90faeff-f7c4-492c-824c-a4698a015be0" />
 
 #### My Orders
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/e2ac2aa4-9b6c-489b-8448-5183c9b2893c" />
+<img width="1917" height="970" alt="Screenshot 2026-07-26 011211" src="https://github.com/user-attachments/assets/f0e077c8-123f-4f42-a851-303a38ab2862" />
 
 #### Table Reservation
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/d5939a35-2449-4217-8c7b-02cefdc131ed" />
+<img width="1917" height="971" alt="Screenshot 2026-07-26 011151" src="https://github.com/user-attachments/assets/6f36ae7d-3992-4ddd-8789-568e23776b7d" />
 
 #### Payment Page
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/ac60a6cb-4865-4818-b027-b720a3019830" />
+<img width="1917" height="972" alt="Screenshot 2026-07-26 011527" src="https://github.com/user-attachments/assets/840bc0d8-0964-436f-97c1-0d1cc25481e8" />
+<img width="1917" height="926" alt="Screenshot 2026-07-26 011548" src="https://github.com/user-attachments/assets/4602f323-131a-4583-9b78-2a3fa05dd644" />
 
 #### Feedback Submission
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/a19a9eb4-eae4-4c2c-aad7-291dc31bbde6" />
+<img width="1917" height="972" alt="Screenshot 2026-07-26 011250" src="https://github.com/user-attachments/assets/c5648772-0d39-4616-a0f8-78e5080003f8" />
 
 #### Profile
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/8273a9bf-6eb1-478a-8bf4-118ec1962a20" />
-
+<img width="1917" height="917" alt="Screenshot 2026-07-26 011311" src="https://github.com/user-attachments/assets/a9cd1ef0-3337-46c6-8dde-f32b076121cf" />
 
 ---
 
 ### 🛠️ Admin Experience
 
 #### Admin Dashboard
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/e63a3f49-3ae3-4766-94d2-d8a9e0c58c6a" />
-
-#### Menu Management
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/80b95818-4861-4c64-9aca-5ce59453590e" />
+<img width="1917" height="970" alt="Screenshot 2026-07-26 012603" src="https://github.com/user-attachments/assets/f0275ccf-2ca2-462f-860f-e4327bd6741f" />
 
 #### Add Menu Item
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/8630d9ce-cff2-4f36-9bc1-f5641a5dda7e" />
+<img width="1917" height="965" alt="Screenshot 2026-07-26 011729" src="https://github.com/user-attachments/assets/f1cfcfdc-27d8-455b-bf58-92e5983c32b9" />
+
+#### Menu Management
+<img width="1917" height="967" alt="Screenshot 2026-07-26 011743" src="https://github.com/user-attachments/assets/27708e79-ef32-4b71-81db-47387a45aeda" />
+<img width="1917" height="980" alt="Screenshot 2026-07-26 011818" src="https://github.com/user-attachments/assets/16868670-ab8a-4cd8-a427-1c5a00a1536c" />
 
 #### Order Management
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/b5c23723-c429-432e-97b1-3b8d597c9c1e" />
+<img width="1917" height="967" alt="Screenshot 2026-07-26 011940" src="https://github.com/user-attachments/assets/ae13bc5c-6b1a-479a-9335-b814ec0dbae6" />
 
 #### Reservation Management
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/4c7d9942-d3d5-45fd-9d8b-2c76b4615f4f" />
+<img width="1917" height="967" alt="Screenshot 2026-07-26 011905" src="https://github.com/user-attachments/assets/fef37709-b6ac-4430-af48-fc0948387219" />
 
 #### Customer Feedback
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/25471c18-802c-48a7-b478-5cf8d34ae0ca" />
+<img width="1917" height="972" alt="Screenshot 2026-07-26 012000" src="https://github.com/user-attachments/assets/1969c846-590e-4239-ab58-4d1a2860bd2b" />
 
 ---
 
 ## 🔒 Security Notes
 
-- Database and JWT credentials are loaded from `backend/.env`, which is excluded from version control — never commit real credentials.
+- Database and JWT credentials are loaded from `backend/.env`, which is excluded from version control - never commit real credentials.
 - Rate limiting (100 requests / 15 min per IP) is applied globally; tune this for production traffic.
 - File uploads are restricted to image MIME types and capped at 5MB.
 
@@ -276,7 +277,7 @@ The app runs on `http://localhost:4200` and proxies API calls to the backend (se
 ## 👤 Author
 
 **Magesh Hariram K**
-Internship Training Project — Full-Stack Restaurant Management System
+Internship Training Project - Full-Stack Restaurant Management System
 
 📇 [LinkedIn](https://www.linkedin.com/in/magesh-hariram-k-6011132a4)
 
