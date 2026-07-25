@@ -40,9 +40,9 @@ The app is built as a **monorepo**: an Angular frontend and a Node.js/Express ba
           └──────────────────────────────┘
 ```
 
-- **Frontend (Angular 21):** Standalone components, route guards for auth/admin, an HTTP interceptor that attaches the JWT to every request.
-- **Backend (Express 5 + Sequelize):** Layered into routes → controllers → models, with middleware for auth, role-based access control, rate limiting, and structured logging.
-- **Database (MySQL):** Relational schema covering users, menu, cart, orders, order items, reservations, payments, feedback, and a token blacklist for logout.
+- **Frontend (Angular 21):** Standalone components, route guards for auth/admin (which also check token expiry, not just presence), and an HTTP interceptor that attaches the JWT to every request and automatically logs the user out and redirects to `/login` on a 401 response (e.g. an expired or blacklisted token).
+- **Backend (Express 5 + Sequelize):** Layered into routes → controllers → models, with middleware for auth, role-based access control, tiered rate limiting, and structured logging.
+- **Database (MySQL):** Relational schema covering users, menu, cart, orders, order items, reservations, payments, feedback, and a token blacklist for logout. Menu item images are stored directly in the database as binary data (not on disk) and served back as base64 data URIs.
 
 ---
 
@@ -53,22 +53,22 @@ The app is built as a **monorepo**: an Angular frontend and a Node.js/Express ba
 - 🍕 Browse the menu with images
 - 🛒 Add to cart, update quantities, clear cart
 - 📦 Place orders and track order history/status
-- 📅 Check table availability and create/manage reservations
+- 📅 Check table availability and create/manage reservations — editing an already-confirmed reservation automatically reverts its status to `pending` for staff re-review
 - 💳 Make payments for orders
 - ⭐ Submit feedback/ratings
 
 ### Admin
 - 📊 Dashboard with restaurant-wide stats
-- 🍽️ Full menu CRUD with image upload (Multer)
+- 🍽️ Full menu CRUD with image upload (Multer, stored as binary data in MySQL)
 - 📅 View and manage all reservations
 - 📦 Manage orders through a controlled status lifecycle (no illegal state transitions)
 - 💬 View customer feedback (sortable, filterable by rating)
 
 ### Platform / Security
-- 🔑 JWT authentication with role-based route guards (customer vs admin)
+- 🔑 JWT authentication with role-based route guards (customer vs admin), including client-side expiry checks
 - 🚫 Token blacklist on logout, served from an in-memory cache (warmed at startup) to avoid a DB hit on every authenticated request
-- 🛡️ `helmet`, `cors`, and `express-rate-limit` for baseline API hardening
-- 📝 Structured logging via Winston (HTTP access logs piped through Morgan)
+- 🛡️ `helmet`, `cors`, and tiered `express-rate-limit`ing for baseline API hardening
+- 📝 Structured logging via Winston (HTTP access logs piped through Morgan), written to `backend/logs/`
 - 🌐 No-cache headers on all `/api` responses to prevent stale 304 responses from leaving the Angular UI stuck on "Loading…"
 
 ---
@@ -82,7 +82,7 @@ The app is built as a **monorepo**: an Angular frontend and a Node.js/Express ba
 | ORM | Sequelize |
 | Database | MySQL (`restro_hub`) |
 | Auth | JSON Web Tokens (jsonwebtoken), bcrypt |
-| File uploads | Multer |
+| File uploads | Multer (memory storage → stored as BLOB in MySQL) |
 | Security middleware | helmet, cors, express-rate-limit |
 | Logging | winston, morgan |
 | Tooling | nodemon, Angular CLI |
@@ -112,7 +112,7 @@ The app is built as a **monorepo**: an Angular frontend and a Node.js/Express ba
         ├── admin/                 # Dashboard, Menu, Orders, Reservations, Feedback
         ├── core/
         │   ├── guards/             # auth-guard, admin-guard
-        │   └── interceptors/       # token-interceptor (attaches JWT)
+        │   └── interceptors/       # token-interceptor (attaches JWT, handles 401)
         ├── services/               # auth, cart, menu, order, reservation, feedback
         └── shared/                 # navbar, footer
 ```
@@ -123,11 +123,11 @@ The app is built as a **monorepo**: an Angular frontend and a Node.js/Express ba
 
 | Resource | Base path | Notes |
 |---|---|---|
-| Auth | `/api/auth` | register, login, profile (get/update), change-password, logout |
-| Menu | `/api/menu` | public GET; admin-only create/update/delete with image upload |
+| Auth | `/api/auth` | register, login (rate-limited: 20 req/15 min), profile (get/update), change-password (`PUT`), logout |
+| Menu | `/api/menu` | public GET; admin-only create/update/delete with image upload, stored in DB |
 | Cart | `/api/cart` | per-user cart CRUD |
 | Orders | `/api/orders` | place/list orders; admin-only status updates |
-| Reservations | `/api/reservations` | availability check, customer's own reservations, admin view/manage |
+| Reservations | `/api/reservations` | availability check, customer's own reservations (edits to a confirmed booking reset it to `pending`), admin view/manage |
 | Payment | `/api/payment` | process payment for an order |
 | Feedback | `/api/feedback` | customer submits; admin views (sortable/filterable) |
 | Admin | `/api/admin` | restaurant-wide stats (admin-only) |
@@ -179,6 +179,15 @@ npm start
 ```
 The API runs on `http://localhost:5000`.
 
+> ⚠️ **Upgrading an existing local DB from an older clone?** The `Menus.image`
+> column changed from a filename string to a binary BLOB, and Sequelize's
+> `sync({ alter: false })` never auto-migrates existing columns. Either drop
+> the `Menus` table and let it recreate on next boot, or run:
+> ```sql
+> ALTER TABLE Menus MODIFY image LONGBLOB NULL, ADD COLUMN imageMimeType VARCHAR(255) NULL;
+> ```
+> Existing menu rows will need their photos re-uploaded via the admin panel either way, since the old value was a filename, not real image data.
+
 ### 3. Frontend setup
 ```bash
 cd ../frontend
@@ -187,7 +196,7 @@ npm start
 ```
 The app runs on `http://localhost:4200` and proxies API calls to the backend (see `proxyconfig.json`).
 
-> ℹ️ There's no admin registration UI - promote a user to admin directly in MySQL (`UPDATE users SET role = 'admin' WHERE id = ...;`) or via a one-off API call.
+> ℹ️ There's no admin registration UI - promote a user to admin directly in MySQL (`UPDATE Users SET role = 'admin' WHERE email = '...';`), then log out and back in so a fresh JWT picks up the new role.
 
 ---
 
@@ -258,8 +267,8 @@ The app runs on `http://localhost:4200` and proxies API calls to the backend (se
 ## 🔒 Security Notes
 
 - Database and JWT credentials are loaded from `backend/.env`, which is excluded from version control - never commit real credentials.
-- Rate limiting (100 requests / 15 min per IP) is applied globally; tune this for production traffic.
-- File uploads are restricted to image MIME types and capped at 5MB.
+- Rate limiting is tiered: `/api/auth/login` and `/api/auth/register` are limited to 20 requests/15 min per IP (credential brute-forcing is the actual risk there); the rest of `/api` allows 300 requests/min per IP, generous enough for normal SPA usage (dashboard polling, rapid filter switching) without leaving the whole API sharing one easily-exhausted budget. Static asset/image requests aren't rate-limited at all.
+- File uploads are restricted to image MIME types and capped at 5MB, held in memory only long enough to write to the database (never touch disk).
 
 ---
 
