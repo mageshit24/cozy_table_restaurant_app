@@ -53,7 +53,7 @@ The app is built as a **monorepo**: an Angular frontend and a Node.js/Express ba
 - 🍕 Browse the menu with images
 - 🛒 Add to cart, update quantities, clear cart
 - 📦 Place orders and track order history/status
-- 📅 Check table availability and create/manage reservations — editing an already-confirmed reservation automatically reverts its status to `pending` for staff re-review
+- 📅 Check table availability and create/manage reservations - editing an already-confirmed reservation automatically reverts its status to `pending` for staff re-review
 - 💳 Make payments for orders
 - ⭐ Submit feedback/ratings
 
@@ -168,7 +168,7 @@ CORS_ORIGIN=http://localhost:4200
 
 Create the MySQL database:
 ```sql
-CREATE DATABASE restro_hub;
+CREATE DATABASE your_db_name;
 ```
 
 Start the backend (auto-creates/syncs tables on boot):
