@@ -80,7 +80,7 @@ The app is built as a **monorepo**: an Angular frontend and a Node.js/Express ba
 | Frontend | Angular 21 (standalone components), TypeScript, RxJS |
 | Backend | Node.js, Express 5 |
 | ORM | Sequelize |
-| Database | MySQL (`restro_hub`) |
+| Database | MySQL |
 | Auth | JSON Web Tokens (jsonwebtoken), bcrypt |
 | File uploads | Multer (memory storage → stored as BLOB in MySQL) |
 | Security middleware | helmet, cors, express-rate-limit |
