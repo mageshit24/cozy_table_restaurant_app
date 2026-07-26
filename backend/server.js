@@ -4,8 +4,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
-const path = require('path');
-const fs = require('fs');
 
 const { sequelize } = require('./src/models');
 const { logger } = require('./src/utils/logger');
@@ -41,8 +39,9 @@ app.use(cors({
  *    headroom for normal SPA usage (polling dashboards, rapid filter
  *    switches) while still bounding abuse. Keyed per-IP either way
  *    (express-rate-limit's default), so one heavy user can't starve another.
- * Static /uploads is served BEFORE this limiter, so image loads never count
- * against a client's request budget. */
+ * Menu images are stored in the database now (see menu.model.js), not on
+ * disk, so there's no static /uploads route left to worry about ordering
+ * against this limiter. */
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 300,
@@ -50,11 +49,6 @@ const apiLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
-
-/* ── Static file serving (uploaded menu images) — unthrottled ───────────── */
-/*const uploadsPath = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsPath)) fs.mkdirSync(uploadsPath, { recursive: true });
-app.use('/uploads', express.static(uploadsPath));*/
 
 app.use('/api', apiLimiter);
 
